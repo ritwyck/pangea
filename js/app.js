@@ -460,12 +460,17 @@ class InsectDetectionGame {
         }
     }
 
-    updateAllUI() {
-        this.updateUserStats();
-        this.ui.updateProgressBar();
-        this.ui.updateChallenges(this.dailyChallenges);
+   updateAllUI() {
+    this.updateUserStats();
+    this.ui.updateProgressBar();
+    this.ui.updateChallenges(this.dailyChallenges);
+    
+    // Only render collection if we're on the collection screen
+    if (this.currentScreen === 'collection') {
         this.ui.renderCollection();
     }
+}
+
 
     updateUserStats() {
         const profile = this.storage.getUserProfile();
@@ -520,6 +525,15 @@ class InsectDetectionGame {
             `;
             return;
         }
+
+        showCollection() 
+        {
+    this.currentScreen = 'collection';
+    document.getElementById('gameScreen').style.display = 'none';
+    document.getElementById('collectionScreen').style.display = 'block';
+    this.ui.renderCollection(); // ← Make sure this is here
+}
+
 
         cardsGrid.innerHTML = collection.map(discovery => {
             const rarity = discovery.rarity || 'common';
