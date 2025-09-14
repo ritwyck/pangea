@@ -33,7 +33,7 @@ class DetectionEngine {
         // Much faster detection sequence
         this.detectionInterval = setInterval(() => {
             this.runFastDetectionSequence();
-        }, 30); // 3x faster - 400ms instead of 1200ms
+        }, 100); // 3x faster - 400ms instead of 1200ms
 
         // Start immediately
         this.runFastDetectionSequence();

@@ -44,6 +44,12 @@ class StorageManager {
         return data ? data.userProfile : null;
     }
 
+    // ADD THIS METHOD - your app.js calls getDiscoveries() but you have getDiscoveredSpecies()
+    getDiscoveries() {
+        const data = this.getGameData();
+        return data ? data.discoveredSpecies : [];
+    }
+
     getDiscoveredSpecies() {
         const data = this.getGameData();
         return data ? data.discoveredSpecies : [];
@@ -62,9 +68,12 @@ class StorageManager {
             id: `${species.toLowerCase()}_${Date.now()}`,
             species: species,
             points: points,
-            photo: photo,
+            photo: photo, // This is the captured image data!
             confidence: confidence,
             timestamp: new Date().toISOString(),
+            date: new Date().toLocaleDateString(), // ADD this for display
+            time: new Date().toLocaleTimeString(), // ADD this for display
+            rarity: this.determineRarity(confidence), // ADD this for display
             isNew: isNewSpecies
         };
 
@@ -86,8 +95,17 @@ class StorageManager {
         // Save updated data
         this.saveGameData(data);
 
-        console.log(`Added discovery: ${species} (+${points} points)`);
+        console.log(`✅ Added discovery: ${species} (+${points} points)`, photo ? 'WITH PHOTO' : 'NO PHOTO');
         return { discovery, isNewSpecies };
+    }
+
+    // ADD THIS METHOD for rarity determination
+    determineRarity(confidence) {
+        if (confidence >= 95) return 'legendary';
+        if (confidence >= 85) return 'epic';
+        if (confidence >= 70) return 'rare';
+        if (confidence >= 50) return 'uncommon';
+        return 'common';
     }
 
     getUniqueSpeciesCount() {
