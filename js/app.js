@@ -849,9 +849,7 @@ class InsectDetectionGame {
         console.log('Complete Game Data Export:', data);
         return data;
     }
-}
-
-// Initialize the complete enhanced game
+}// Initialize the complete enhanced game
 document.addEventListener('DOMContentLoaded', () => {
     // Load Leaflet assets for mapping
     if (!document.querySelector('link[href*="leaflet"]')) {
@@ -864,10 +862,12 @@ document.addEventListener('DOMContentLoaded', () => {
         leafletJS.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
         leafletJS.onload = () => {
             window.game = new InsectDetectionGame();
+            initializeMobileFeatures(); // Initialize mobile features after game loads
         };
         document.head.appendChild(leafletJS);
     } else {
         window.game = new InsectDetectionGame();
+        initializeMobileFeatures(); // Initialize mobile features after game loads
     }
     
     // Enhanced debug console commands
@@ -894,3 +894,184 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('🔍 Complete Enhanced Nature Detective Game Loaded!');
     console.log('Debug commands: resetGame(), exportData(), addXP(amount), joinNeighborhood(id, username), showMap(), addCommunityPoints(amount)');
 });
+
+// ========================================
+// 📱 COMPLETE MOBILE OPTIMIZATION
+// ========================================
+
+function initializeMobileFeatures() {
+    // Only run on mobile devices
+    if (window.innerWidth <= 768) {
+        setupMobileChallengePanel();
+        setupMobileInputOptimization();
+        setupMobileViewportHandling();
+        setupMobileTouchOptimization();
+        
+        console.log('📱 Mobile features initialized');
+    }
+}
+
+// Mobile Challenge Panel Toggle
+function setupMobileChallengePanel() {
+    const challengePanel = document.querySelector('.challenge-panel');
+    const challengeHeader = document.querySelector('.challenge-header');
+    
+    if (challengeHeader) {
+        // Add mobile-specific classes
+        challengePanel.classList.add('mobile-challenge-panel');
+        
+        challengeHeader.addEventListener('click', function(e) {
+            e.stopPropagation();
+            challengePanel.classList.toggle('expanded');
+            
+            // Update aria attributes for accessibility
+            const isExpanded = challengePanel.classList.contains('expanded');
+            challengeHeader.setAttribute('aria-expanded', isExpanded);
+        });
+        
+        // Close when clicking outside
+        document.addEventListener('click', function(e) {
+            if (challengePanel && !challengePanel.contains(e.target)) {
+                challengePanel.classList.remove('expanded');
+                challengeHeader.setAttribute('aria-expanded', 'false');
+            }
+        });
+        
+        // Close on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && challengePanel.classList.contains('expanded')) {
+                challengePanel.classList.remove('expanded');
+                challengeHeader.setAttribute('aria-expanded', 'false');
+            }
+        });
+    }
+}
+
+// Prevent zoom on mobile inputs
+function setupMobileInputOptimization() {
+    const inputs = document.querySelectorAll('input, select, textarea');
+    inputs.forEach(input => {
+        // Prevent zoom on focus
+        input.addEventListener('focus', function() {
+            if (this.style.fontSize !== '16px') {
+                this.style.fontSize = '16px';
+            }
+        });
+        
+        // Restore original size on blur if needed
+        input.addEventListener('blur', function() {
+            // Only restore if it was changed for zoom prevention
+            if (this.style.fontSize === '16px' && !this.hasAttribute('data-original-mobile-size')) {
+                this.style.fontSize = '';
+            }
+        });
+    });
+}
+
+// Handle mobile viewport changes
+function setupMobileViewportHandling() {
+    let resizeTimer;
+    
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+            const isMobile = window.innerWidth <= 768;
+            
+            // Close challenge panel on orientation change
+            const challengePanel = document.querySelector('.challenge-panel');
+            if (challengePanel && challengePanel.classList.contains('expanded')) {
+                challengePanel.classList.remove('expanded');
+                const challengeHeader = document.querySelector('.challenge-header');
+                if (challengeHeader) {
+                    challengeHeader.setAttribute('aria-expanded', 'false');
+                }
+            }
+            
+            // Re-initialize mobile features if switching to mobile
+            if (isMobile && !document.body.classList.contains('mobile-optimized')) {
+                document.body.classList.add('mobile-optimized');
+                console.log('📱 Switched to mobile view');
+            } else if (!isMobile && document.body.classList.contains('mobile-optimized')) {
+                document.body.classList.remove('mobile-optimized');
+                console.log('🖥️ Switched to desktop view');
+            }
+        }, 250);
+    });
+    
+    // Set initial mobile state
+    if (window.innerWidth <= 768) {
+        document.body.classList.add('mobile-optimized');
+    }
+}
+
+// Mobile touch optimization
+function setupMobileTouchOptimization() {
+    // Add touch feedback to buttons
+    const buttons = document.querySelectorAll('button, .control-btn, .capture-btn');
+    
+    buttons.forEach(button => {
+        // Add touch start feedback
+        button.addEventListener('touchstart', function(e) {
+            this.classList.add('touch-active');
+        }, { passive: true });
+        
+        // Remove touch feedback
+        button.addEventListener('touchend', function(e) {
+            setTimeout(() => {
+                this.classList.remove('touch-active');
+            }, 150);
+        }, { passive: true });
+        
+        // Handle touch cancel
+        button.addEventListener('touchcancel', function(e) {
+            this.classList.remove('touch-active');
+        }, { passive: true });
+    });
+    
+    // Optimize camera video for touch
+    const videoElement = document.getElementById('videoElement');
+    if (videoElement) {
+        // Prevent context menu on long press
+        videoElement.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+        
+        // Add touch-friendly interaction
+        videoElement.addEventListener('touchstart', function(e) {
+            // Add visual feedback for camera interaction
+            this.style.filter = 'brightness(0.9)';
+        }, { passive: true });
+        
+        videoElement.addEventListener('touchend', function(e) {
+            this.style.filter = '';
+        }, { passive: true });
+    }
+}
+
+// Enhanced mobile detection utilities
+window.mobileUtils = {
+    isMobile: () => window.innerWidth <= 768,
+    isTouch: () => 'ontouchstart' in window || navigator.maxTouchPoints > 0,
+    toggleChallengePanel: () => {
+        const challengePanel = document.querySelector('.challenge-panel');
+        if (challengePanel) {
+            challengePanel.classList.toggle('expanded');
+        }
+    },
+    optimizeForMobile: () => {
+        if (window.innerWidth <= 768) {
+            initializeMobileFeatures();
+        }
+    }
+};
+
+// Auto-initialize mobile features on orientation change
+window.addEventListener('orientationchange', function() {
+    setTimeout(() => {
+        if (window.innerWidth <= 768) {
+            initializeMobileFeatures();
+        }
+    }, 100);
+});
+
+console.log('📱 Mobile optimization system loaded');

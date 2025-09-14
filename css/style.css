@@ -4225,3 +4225,609 @@ body {
 */
 
 /* End of Mobile Camera Fix */
+/* ========================================
+   📱 STREAMLINED MOBILE LAYOUT FIX
+   Add this at the VERY END of style.css
+   ======================================== */
+
+/* Mobile Space Optimization */
+@media screen and (max-width: 768px) {
+    
+    /* ========================================
+       📱 COMPACT NAVIGATION
+       ======================================== */
+    
+    .nav-bar {
+        padding: 0.5rem 1rem !important;
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 1000 !important;
+        background: var(--off-white) !important;
+        border-bottom: 2px solid var(--primary-emerald) !important;
+        box-shadow: 0 2px 8px rgba(6, 78, 59, 0.1) !important;
+    }
+    
+    .nav-content {
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        gap: 0.5rem !important;
+        max-width: none !important;
+    }
+    
+    .nav-content h1 {
+        font-size: 1.2rem !important;
+        margin: 0 !important;
+        flex: 1 !important;
+        text-align: left !important;
+    }
+    
+    .nav-content h1::before {
+        font-size: 1rem !important;
+        margin-right: 0.5rem !important;
+    }
+    
+    /* Compact User Stats */
+    .user-stats {
+        display: flex !important;
+        gap: 0.3rem !important;
+        font-size: 0.8rem !important;
+        flex-shrink: 0 !important;
+    }
+    
+    .points, .discoveries {
+        padding: 0.3rem 0.6rem !important;
+        font-size: 0.7rem !important;
+        min-width: 60px !important;
+        text-align: center !important;
+        border-width: 1px !important;
+        font-weight: 600 !important;
+    }
+    
+    /* ========================================
+       📱 HIDE PROGRESS BAR ON CAMERA SCREEN
+       ======================================== */
+    
+    .game-screen .progress-container {
+        display: none !important;
+    }
+    
+    /* Only show progress in collection screen */
+    .collection-screen .progress-container {
+        display: block !important;
+        padding: 0.8rem !important;
+        margin: 0 !important;
+    }
+    
+    .collection-screen .level-info {
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        gap: 1rem !important;
+        text-align: left !important;
+    }
+    
+    .collection-screen .level-badge {
+        font-size: 0.7rem !important;
+        padding: 0.4rem 0.8rem !important;
+    }
+    
+    .collection-screen .xp-bar {
+        height: 8px !important;
+        margin: 0.5rem 0 !important;
+    }
+    
+    /* ========================================
+       📱 MAXIMIZED CAMERA SPACE
+       ======================================== */
+    
+    .camera-container {
+        position: relative !important;
+        width: calc(100vw - 0.5rem) !important;
+        max-width: none !important;
+        margin: 0.25rem !important;
+        height: auto !important;
+        z-index: 10 !important;
+        border-width: 1px !important;
+    }
+    
+    #videoElement {
+        width: 100% !important;
+        height: calc(100vh - 120px) !important;
+        max-height: 500px !important;
+        min-height: 300px !important;
+        object-fit: cover !important;
+        background: #000 !important;
+        border: none !important;
+    }
+    
+    /* ========================================
+       📱 REPOSITIONED DETECTION OVERLAY
+       ======================================== */
+    
+    .detection-overlay {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        background: transparent !important;
+        z-index: 15 !important;
+        pointer-events: none !important;
+    }
+    
+    .detection-box {
+        position: absolute !important;
+        top: 10px !important;
+        left: 10px !important;
+        right: 10px !important;
+        bottom: auto !important;
+        transform: none !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        color: var(--primary-emerald) !important;
+        padding: 0.8rem !important;
+        text-align: center !important;
+        border: 1px solid var(--primary-emerald) !important;
+        min-width: auto !important;
+        max-width: none !important;
+        backdrop-filter: blur(8px) !important;
+        z-index: 16 !important;
+        font-size: 0.9rem !important;
+    }
+    
+    .species-info h3 {
+        font-size: 1rem !important;
+        margin-bottom: 0.3rem !important;
+        color: var(--primary-emerald) !important;
+    }
+    
+    .confidence {
+        font-size: 0.8rem !important;
+        margin-bottom: 0.2rem !important;
+        display: inline-block !important;
+        margin-right: 1rem !important;
+    }
+    
+    .points-preview {
+        font-size: 0.8rem !important;
+        margin-top: 0 !important;
+        color: var(--rich-emerald) !important;
+        display: inline-block !important;
+    }
+    
+    /* ========================================
+       📱 FLOATING CAPTURE BUTTON
+       ======================================== */
+    
+    .capture-btn {
+        position: fixed !important;
+        bottom: 20px !important;
+        right: 20px !important;
+        left: auto !important;
+        transform: none !important;
+        background: var(--emerald-gradient) !important;
+        color: var(--off-white) !important;
+        border: 2px solid var(--primary-emerald) !important;
+        padding: 0.8rem 1.2rem !important;
+        font-size: 0.9rem !important;
+        font-weight: 700 !important;
+        cursor: pointer !important;
+        z-index: 100 !important;
+        pointer-events: auto !important;
+        display: block !important;
+        visibility: visible !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.05em !important;
+        border-radius: 50px !important;
+        box-shadow: 0 4px 16px rgba(6, 78, 59, 0.3) !important;
+        min-width: 80px !important;
+    }
+    
+    .capture-btn:active {
+        transform: scale(0.95) !important;
+        background: var(--deep-emerald) !important;
+    }
+    
+    /* ========================================
+       📱 STREAMLINED CAMERA CONTROLS
+       ======================================== */
+    
+    .camera-controls {
+        padding: 1rem 0.5rem !important;
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 0.5rem !important;
+        align-items: center !important;
+        background: var(--off-white) !important;
+        justify-content: center !important;
+        flex-wrap: wrap !important;
+    }
+    
+    .control-btn {
+        flex: 1 !important;
+        min-width: auto !important;
+        max-width: none !important;
+        padding: 0.8rem 1rem !important;
+        font-size: 0.8rem !important;
+        border: 1px solid var(--primary-emerald) !important;
+        background: var(--off-white) !important;
+        color: var(--primary-emerald) !important;
+        text-align: center !important;
+        font-weight: 600 !important;
+        text-transform: uppercase !important;
+        cursor: pointer !important;
+        margin: 0 !important;
+    }
+    
+    .control-btn:active {
+        background: var(--primary-emerald) !important;
+        color: var(--off-white) !important;
+        transform: scale(0.98) !important;
+    }
+    
+    /* ========================================
+       📱 MINIMIZED CHALLENGE PANEL
+       ======================================== */
+    
+    .challenge-panel {
+        position: fixed !important;
+        bottom: 80px !important;
+        left: 20px !important;
+        right: auto !important;
+        top: auto !important;
+        width: 50px !important;
+        height: 50px !important;
+        max-height: none !important;
+        z-index: 90 !important;
+        border: 1px solid var(--primary-emerald) !important;
+        border-radius: 50px !important;
+        overflow: hidden !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    .challenge-panel.expanded {
+        width: calc(100vw - 40px) !important;
+        height: auto !important;
+        max-height: 60vh !important;
+        border-radius: 8px !important;
+        bottom: 80px !important;
+        left: 20px !important;
+        right: 20px !important;
+    }
+    
+    .challenge-panel.collapsed {
+        transform: none !important;
+        width: 50px !important;
+        height: 50px !important;
+    }
+    
+    .challenge-header {
+        padding: 0 !important;
+        width: 50px !important;
+        height: 50px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        border-bottom: none !important;
+        cursor: pointer !important;
+        position: relative !important;
+    }
+    
+    .challenge-panel.expanded .challenge-header {
+        width: 100% !important;
+        height: auto !important;
+        padding: 1rem !important;
+        justify-content: space-between !important;
+        border-bottom: 2px solid var(--primary-emerald) !important;
+    }
+    
+    .challenge-header h3 {
+        font-size: 0 !important;
+        margin: 0 !important;
+        overflow: hidden !important;
+    }
+    
+    .challenge-panel.expanded .challenge-header h3 {
+        font-size: 0.9rem !important;
+    }
+    
+    .challenge-header::before {
+        content: "🎯" !important;
+        font-size: 1.2rem !important;
+        position: absolute !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+    }
+    
+    .challenge-panel.expanded .challenge-header::before {
+        display: none !important;
+    }
+    
+    .collapse-arrow {
+        font-size: 1rem !important;
+        display: none !important;
+    }
+    
+    .challenge-panel.expanded .collapse-arrow {
+        display: block !important;
+    }
+    
+    .challenge-list {
+        display: none !important;
+        max-height: calc(60vh - 60px) !important;
+        padding: 0.8rem !important;
+        overflow-y: auto !important;
+    }
+    
+    .challenge-panel.expanded .challenge-list {
+        display: block !important;
+    }
+    
+    .challenge-item {
+        padding: 1rem !important;
+        margin-bottom: 0.8rem !important;
+        border-width: 1px !important;
+    }
+    
+    .challenge-item h4 {
+        font-size: 0.9rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .challenge-item p {
+        font-size: 0.8rem !important;
+        margin-bottom: 0.8rem !important;
+        line-height: 1.3 !important;
+    }
+    
+    /* ========================================
+       📱 MINIMIZED WEATHER WIDGET
+       ======================================== */
+    
+    .weather-widget {
+        position: fixed !important;
+        top: 60px !important;
+        right: 10px !important;
+        left: auto !important;
+        padding: 0.3rem 0.6rem !important;
+        font-size: 0.7rem !important;
+        z-index: 80 !important;
+        background: rgba(255, 255, 255, 0.9) !important;
+        border: 1px solid var(--light-gray) !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 0.3rem !important;
+    }
+    
+    .weather-icon {
+        font-size: 1rem !important;
+    }
+    
+    .weather-temp {
+        font-size: 0.8rem !important;
+    }
+    
+    .weather-condition {
+        display: none !important;
+    }
+    
+    .weather-bonus {
+        font-size: 0.5rem !important;
+        padding: 0.1rem 0.3rem !important;
+        top: -6px !important;
+        right: -6px !important;
+    }
+    
+    /* ========================================
+       📱 REPOSITIONED RESET BUTTON
+       ======================================== */
+    
+    .reset-game-btn {
+        position: fixed !important;
+        top: 60px !important;
+        left: 10px !important;
+        bottom: auto !important;
+        padding: 0.3rem 0.6rem !important;
+        font-size: 0.6rem !important;
+        z-index: 80 !important;
+        border-width: 1px !important;
+    }
+    
+    /* ========================================
+       📱 MOBILE NOTIFICATIONS
+       ======================================== */
+    
+    .notification-container {
+        position: fixed !important;
+        top: 100px !important;
+        left: 10px !important;
+        right: 10px !important;
+        z-index: 999 !important;
+    }
+    
+    .notification {
+        width: 100% !important;
+        max-width: none !important;
+        margin-bottom: 0.5rem !important;
+        padding: 0.8rem !important;
+        font-size: 0.8rem !important;
+        border-left-width: 3px !important;
+        border-width: 1px !important;
+    }
+    
+    .notification-content {
+        gap: 0.8rem !important;
+    }
+    
+    .notification-icon {
+        font-size: 1rem !important;
+        min-width: 20px !important;
+    }
+    
+    .notification-message {
+        font-size: 0.8rem !important;
+        line-height: 1.3 !important;
+    }
+}
+
+/* ========================================
+   📱 ULTRA-SMALL MOBILE (320px-480px)
+   ======================================== */
+
+@media screen and (max-width: 480px) {
+    
+    .nav-content h1 {
+        font-size: 1rem !important;
+    }
+    
+    .nav-content h1::before {
+        font-size: 0.9rem !important;
+    }
+    
+    .points, .discoveries {
+        padding: 0.2rem 0.4rem !important;
+        font-size: 0.6rem !important;
+        min-width: 50px !important;
+    }
+    
+    #videoElement {
+        height: calc(100vh - 100px) !important;
+        max-height: 400px !important;
+    }
+    
+    .detection-box {
+        padding: 0.6rem !important;
+        font-size: 0.8rem !important;
+    }
+    
+    .species-info h3 {
+        font-size: 0.9rem !important;
+    }
+    
+    .confidence,
+    .points-preview {
+        font-size: 0.7rem !important;
+    }
+    
+    .capture-btn {
+        padding: 0.6rem 1rem !important;
+        font-size: 0.8rem !important;
+        bottom: 15px !important;
+        right: 15px !important;
+        min-width: 70px !important;
+    }
+    
+    .control-btn {
+        padding: 0.6rem 0.8rem !important;
+        font-size: 0.7rem !important;
+    }
+    
+    .challenge-panel {
+        width: 40px !important;
+        height: 40px !important;
+        bottom: 70px !important;
+    }
+    
+    .challenge-header {
+        width: 40px !important;
+        height: 40px !important;
+    }
+    
+    .challenge-header::before {
+        font-size: 1rem !important;
+    }
+}
+
+/* ========================================
+   📱 COLLECTION SCREEN MOBILE
+   ======================================== */
+
+@media screen and (max-width: 768px) {
+    
+    .collection-header {
+        padding: 1rem !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0.8rem !important;
+        border-bottom-width: 1px !important;
+    }
+    
+    .collection-header h2 {
+        font-size: 1.3rem !important;
+        margin: 0 !important;
+    }
+    
+    .collection-header .control-btn {
+        width: 100% !important;
+        max-width: none !important;
+        margin-bottom: 0.3rem !important;
+        padding: 0.6rem 1rem !important;
+        font-size: 0.8rem !important;
+        border-width: 1px !important;
+    }
+    
+    .cards-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem !important;
+        padding: 1.5rem 1rem !important;
+    }
+    
+    .species-card {
+        padding: 1rem !important;
+        border-width: 1px !important;
+    }
+    
+    .card-image {
+        height: 160px !important;
+        margin-bottom: 0.8rem !important;
+    }
+    
+    .card-info h4 {
+        font-size: 1.1rem !important;
+        margin-bottom: 0.8rem !important;
+    }
+    
+    .card-stats {
+        flex-direction: column !important;
+        gap: 0.3rem !important;
+        font-size: 0.9rem !important;
+    }
+    
+    .rarity-badge {
+        top: 10px !important;
+        right: 10px !important;
+        padding: 0.3rem 0.8rem !important;
+        font-size: 0.6rem !important;
+    }
+}
+
+/* ========================================
+   📱 JAVASCRIPT HELPERS
+   ======================================== */
+
+/* Add this JavaScript to your main JS file:
+
+// Mobile Challenge Panel Toggle
+document.addEventListener('DOMContentLoaded', function() {
+    const challengePanel = document.querySelector('.challenge-panel');
+    const challengeHeader = document.querySelector('.challenge-header');
+    
+    if (challengeHeader && window.innerWidth <= 768) {
+        challengeHeader.addEventListener('click', function(e) {
+            e.stopPropagation();
+            challengePanel.classList.toggle('expanded');
+        });
+        
+        // Close when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!challengePanel.contains(e.target)) {
+                challengePanel.classList.remove('expanded');
+            }
+        });
+    }
+});
+
+*/
+
+/* End of Streamlined Mobile Layout Fix */
