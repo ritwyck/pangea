@@ -1,7 +1,6 @@
 class DetectionEngine {
     constructor() {
         this.species = [
-            // Keep the species for reference but we'll always detect Beautiful People
             { name: 'Butterfly', category: 'insect', points: 50, rarity: 'uncommon' },
             { name: 'Bee', category: 'insect', points: 40, rarity: 'common' },
             { name: 'Beetle', category: 'insect', points: 30, rarity: 'common' },
@@ -16,11 +15,11 @@ class DetectionEngine {
         this.currentDetection = null;
         this.isDetecting = false;
         this.detectionInterval = null;
-        this.searchPhase = 'scanning'; // 'scanning', 'analyzing', 'shuffling', 'final'
+        this.searchPhase = 'scanning';
         this.searchStep = 0;
         this.searchSequence = [];
         
-        console.log('🎭 Demo Detection Engine: Always finds Beautiful People!');
+        console.log('🎭 Fast Demo Detection Engine: Instant Beautiful People detection!');
     }
 
     startDetection() {
@@ -29,15 +28,15 @@ class DetectionEngine {
         this.isDetecting = true;
         this.searchPhase = 'scanning';
         this.searchStep = 0;
-        console.log('🔍 Demo detection started - searching for Beautiful People...');
+        console.log('🚀 FAST detection started - quick Beautiful People detection...');
 
-        // Start the demo detection sequence
+        // Much faster detection sequence
         this.detectionInterval = setInterval(() => {
-            this.runDemoDetectionSequence();
-        }, 1200); // Slightly slower for better demo effect
+            this.runFastDetectionSequence();
+        }, 400); // 3x faster - 400ms instead of 1200ms
 
         // Start immediately
-        this.runDemoDetectionSequence();
+        this.runFastDetectionSequence();
     }
 
     stopDetection() {
@@ -53,19 +52,16 @@ class DetectionEngine {
         this.currentDetection = null;
         this.searchPhase = 'scanning';
         this.searchStep = 0;
-        console.log('🛑 Demo detection stopped');
+        console.log('🛑 Fast detection stopped');
     }
 
-    runDemoDetectionSequence() {
+    runFastDetectionSequence() {
         switch (this.searchPhase) {
             case 'scanning':
-                this.showScanningPhase();
+                this.showFastScanningPhase();
                 break;
             case 'analyzing':
-                this.showAnalyzingPhase();
-                break;
-            case 'shuffling':
-                this.showShufflingPhase();
+                this.showFastAnalyzingPhase();
                 break;
             case 'final':
                 this.showFinalDetection();
@@ -73,17 +69,15 @@ class DetectionEngine {
         }
     }
 
-    showScanningPhase() {
-        const scanningMessages = [
-            'Scanning environment...',
-            'Analyzing visual data...',
-            'Processing camera feed...',
-            'Detecting subjects...',
-            'Initializing recognition...'
+    showFastScanningPhase() {
+        const quickScanMessages = [
+            'Scanning...',
+            'Analyzing...',
+            'Processing...'
         ];
 
         this.updateDetectionDisplay(
-            scanningMessages[this.searchStep % scanningMessages.length], 
+            quickScanMessages[this.searchStep % quickScanMessages.length], 
             0, 
             0, 
             false, 
@@ -92,58 +86,16 @@ class DetectionEngine {
 
         this.searchStep++;
         
-        // After 3-4 scanning cycles, move to analyzing
-        if (this.searchStep >= 4) {
+        // Only 2 scanning cycles before analyzing
+        if (this.searchStep >= 2) {
             this.searchPhase = 'analyzing';
             this.searchStep = 0;
-            this.generateShuffleSequence();
+            this.generateFastSequence();
         }
     }
 
-    showAnalyzingPhase() {
-        const analyzingMessages = [
-            'Analyzing subjects...',
-            'Running classification...',
-            'Processing features...',
-            'Calculating confidence...'
-        ];
-
-        this.updateDetectionDisplay(
-            analyzingMessages[this.searchStep % analyzingMessages.length], 
-            Math.floor(Math.random() * 30) + 10, // Random low confidence 
-            0, 
-            false, 
-            true
-        );
-
-        this.searchStep++;
-        
-        // After 2-3 analyzing cycles, move to shuffling
-        if (this.searchStep >= 3) {
-            this.searchPhase = 'shuffling';
-            this.searchStep = 0;
-        }
-    }
-
-    generateShuffleSequence() {
-        // Create a realistic shuffle sequence that leads to Beautiful People
-        this.searchSequence = [
-            { name: 'Analyzing movement...', confidence: Math.floor(Math.random() * 20) + 40 },
-            { name: 'Rose', confidence: Math.floor(Math.random() * 15) + 60 },
-            { name: 'Detecting features...', confidence: Math.floor(Math.random() * 15) + 65 },
-            { name: 'Butterfly', confidence: Math.floor(Math.random() * 12) + 70 },
-            { name: 'Bee', confidence: Math.floor(Math.random() * 10) + 75 },
-            { name: 'Refining analysis...', confidence: Math.floor(Math.random() * 8) + 80 },
-            { name: 'Sunflower', confidence: Math.floor(Math.random() * 8) + 85 },
-            { name: 'Final classification...', confidence: Math.floor(Math.random() * 5) + 90 },
-            { name: 'Beetle', confidence: Math.floor(Math.random() * 5) + 92 },
-            { name: 'Confirming results...', confidence: 95 }
-        ];
-    }
-
-    showShufflingPhase() {
+    showFastAnalyzingPhase() {
         if (this.searchStep >= this.searchSequence.length) {
-            // Move to final detection
             this.searchPhase = 'final';
             this.searchStep = 0;
             return;
@@ -152,7 +104,6 @@ class DetectionEngine {
         const currentItem = this.searchSequence[this.searchStep];
         const species = this.species.find(s => s.name === currentItem.name);
         
-        // Calculate points based on what we're "detecting"
         let points = 0;
         if (species) {
             points = Math.floor((currentItem.confidence / 100) * species.points);
@@ -163,10 +114,20 @@ class DetectionEngine {
             currentItem.confidence,
             points,
             false,
-            true // indicate shuffling
+            true
         );
 
         this.searchStep++;
+    }
+
+    generateFastSequence() {
+        // Much shorter sequence - only 4 steps instead of 10
+        this.searchSequence = [
+            { name: 'Movement detected...', confidence: 45 },
+            { name: 'Rose', confidence: 65 },
+            { name: 'Analyzing features...', confidence: 85 },
+            { name: 'Classification complete', confidence: 95 }
+        ];
     }
 
     showFinalDetection() {
@@ -185,8 +146,7 @@ class DetectionEngine {
 
         this.updateDetectionDisplay('Beautiful People', 100, 100, true);
         
-        // Stay in final phase - keep showing Beautiful People
-        console.log('✨ Demo Detection Complete: Beautiful People found!');
+        console.log('✨ FAST Detection Complete: Beautiful People found in record time!');
     }
 
     updateDetectionDisplay(species, confidence, points, isSpecial = false, isProcessing = false) {
@@ -198,104 +158,96 @@ class DetectionEngine {
             speciesElement.textContent = species;
             
             if (isSpecial) {
-                // Beautiful People special styling
+                // Beautiful People special styling - enhanced for speed demo
+                speciesElement.className = 'beautiful-people';
                 speciesElement.style.background = 'linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57)';
                 speciesElement.style.backgroundSize = '400% 400%';
-                speciesElement.style.animation = 'rainbow 2s ease infinite';
-                speciesElement.style.color = 'white';
-                speciesElement.style.padding = '0.8rem';
-                speciesElement.style.borderRadius = '15px';
-                speciesElement.style.textShadow = '2px 2px 4px rgba(0,0,0,0.7)';
-                speciesElement.style.fontWeight = 'bold';
-                speciesElement.style.fontSize = '1.4em';
+                speciesElement.style.animation = 'rainbow 1.5s ease infinite'; // Faster animation
+                speciesElement.style.webkitBackgroundClip = 'text';
+                speciesElement.style.webkitTextFillColor = 'transparent';
+                speciesElement.style.backgroundClip = 'text';
+                speciesElement.style.fontWeight = '900';
+                speciesElement.style.fontSize = '1.6em';
+                speciesElement.style.textTransform = 'uppercase';
+                speciesElement.style.letterSpacing = '0.1em';
             } else if (isProcessing) {
-                // Processing/scanning styling
                 speciesElement.style.background = '';
-                speciesElement.style.animation = 'pulse 1s ease infinite';
+                speciesElement.style.animation = 'fastPulse 0.8s ease infinite'; // Faster pulse
                 speciesElement.style.color = '#4ecdc4';
-                speciesElement.style.padding = '0.5rem';
-                speciesElement.style.borderRadius = '10px';
-                speciesElement.style.textShadow = '';
-                speciesElement.style.fontWeight = 'normal';
-                speciesElement.style.fontSize = '1em';
-                
-                // Add dots animation for processing messages
-                if (species.includes('...')) {
-                    speciesElement.style.animation = 'processing 1.5s ease infinite';
-                }
+                speciesElement.style.fontWeight = '600';
+                speciesElement.style.fontSize = '1.1em';
             } else {
                 // Reset styling
-                speciesElement.style.background = '';
-                speciesElement.style.animation = '';
+                speciesElement.style.cssText = '';
                 speciesElement.style.color = '#4ecdc4';
-                speciesElement.style.padding = '';
-                speciesElement.style.borderRadius = '';
-                speciesElement.style.textShadow = '';
-                speciesElement.style.fontWeight = '';
-                speciesElement.style.fontSize = '';
             }
         }
         
         if (confidenceElement) {
-            confidenceElement.textContent = `${confidence}%`;
+            if (confidence === 0) {
+                confidenceElement.textContent = 'confidence';
+            } else {
+                confidenceElement.textContent = `${confidence}% confidence`;
+            }
             
             if (isSpecial) {
                 confidenceElement.style.color = '#27ae60';
                 confidenceElement.style.fontWeight = 'bold';
-                confidenceElement.style.fontSize = '1.3em';
-                confidenceElement.style.textShadow = '1px 1px 2px rgba(0,0,0,0.5)';
-            } else if (isProcessing && confidence > 0) {
-                confidenceElement.style.color = '#f39c12';
-                confidenceElement.style.fontWeight = 'normal';
-                confidenceElement.style.fontSize = '1em';
-                confidenceElement.style.textShadow = '';
+                confidenceElement.style.fontSize = '1.4em';
+                confidenceElement.style.textShadow = '2px 2px 4px rgba(39, 174, 96, 0.3)';
             } else {
-                confidenceElement.style.color = '';
-                confidenceElement.style.fontWeight = '';
-                confidenceElement.style.fontSize = '';
-                confidenceElement.style.textShadow = '';
+                confidenceElement.style.cssText = '';
+                confidenceElement.style.color = confidence > 80 ? '#27ae60' : confidence > 50 ? '#f39c12' : '#e74c3c';
             }
         }
         
         if (pointsElement) {
-            pointsElement.textContent = points;
+            pointsElement.textContent = `+${points} points`;
             
             if (isSpecial) {
                 pointsElement.style.color = '#f1c40f';
                 pointsElement.style.fontWeight = 'bold';
-                pointsElement.style.fontSize = '1.3em';
-                pointsElement.style.textShadow = '1px 1px 2px rgba(0,0,0,0.5)';
+                pointsElement.style.fontSize = '1.4em';
+                pointsElement.style.textShadow = '2px 2px 4px rgba(241, 196, 15, 0.3)';
+                pointsElement.style.animation = 'pointsGlow 1s ease infinite alternate';
             } else {
-                pointsElement.style.color = '';
-                pointsElement.style.fontWeight = '';
-                pointsElement.style.fontSize = '';
-                pointsElement.style.textShadow = '';
+                pointsElement.style.cssText = '';
+                pointsElement.style.color = '#f39c12';
             }
         }
 
-        // Update detection box styling
+        // Enhanced detection box styling for speed demo
         const detectionBox = document.querySelector('.detection-box');
         if (detectionBox) {
             if (isSpecial) {
-                detectionBox.style.borderColor = '#f1c40f';
-                detectionBox.style.borderWidth = '4px';
-                detectionBox.style.boxShadow = '0 0 30px rgba(241, 196, 15, 1), 0 0 60px rgba(241, 196, 15, 0.5)';
-                detectionBox.style.background = 'rgba(0,0,0,0.95)';
-                detectionBox.style.animation = 'glow 2s ease infinite alternate';
+                detectionBox.style.border = '4px solid #f1c40f';
+                detectionBox.style.boxShadow = '0 0 40px rgba(241, 196, 15, 0.8), 0 0 80px rgba(241, 196, 15, 0.4)';
+                detectionBox.style.background = 'rgba(6, 78, 59, 0.95)';
+                detectionBox.style.animation = 'legendaryGlow 1.5s ease infinite alternate';
             } else if (isProcessing) {
-                detectionBox.style.borderColor = '#3498db';
-                detectionBox.style.borderWidth = '2px';
-                detectionBox.style.boxShadow = '0 0 15px rgba(52, 152, 219, 0.5)';
-                detectionBox.style.background = 'rgba(0,0,0,0.8)';
-                detectionBox.style.animation = 'scan 2s ease infinite';
+                detectionBox.style.border = '3px solid #3498db';
+                detectionBox.style.boxShadow = '0 0 20px rgba(52, 152, 219, 0.6)';
+                detectionBox.style.animation = 'fastScan 1s ease infinite';
             } else {
-                detectionBox.style.borderColor = '#fff';
-                detectionBox.style.borderWidth = '2px';
-                detectionBox.style.boxShadow = '';
-                detectionBox.style.background = 'rgba(0,0,0,0.8)';
-                detectionBox.style.animation = '';
+                detectionBox.style.cssText = '';
             }
         }
+    }
+
+    // Quick detection methods for instant demo
+    instantDetection() {
+        console.log('⚡ INSTANT Beautiful People detection!');
+        this.searchPhase = 'final';
+        this.searchStep = 0;
+        this.showFinalDetection();
+    }
+
+    // Skip all phases - go straight to result
+    skipToResult() {
+        if (this.detectionInterval) {
+            clearInterval(this.detectionInterval);
+        }
+        this.instantDetection();
     }
 
     getCurrentDetection() {
@@ -314,18 +266,10 @@ class DetectionEngine {
         return [...this.species];
     }
 
-    // Reset detection sequence (for demo purposes)
     resetDetectionSequence() {
         this.searchPhase = 'scanning';
         this.searchStep = 0;
         this.currentDetection = null;
-        console.log('🔄 Demo detection sequence reset');
-    }
-
-    // Skip to final result (for quick demo)
-    skipToResult() {
-        this.searchPhase = 'final';
-        this.searchStep = 0;
-        console.log('⏩ Skipped to Beautiful People detection');
+        console.log('🔄 Fast detection reset');
     }
 }
