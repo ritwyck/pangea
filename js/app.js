@@ -1075,3 +1075,139 @@ window.addEventListener('orientationchange', function() {
 });
 
 console.log('📱 Mobile optimization system loaded');
+// ========================================
+// 📱 VIEW COLLECTION BUTTON FIX
+// ========================================
+
+function fixViewCollectionButtonMobile() {
+    console.log('📱 Starting View Collection button fix...');
+    
+    // Wait for elements to be ready
+    setTimeout(() => {
+        // Find all possible View Collection buttons
+        const possibleButtons = [
+            document.getElementById('viewCollectionBtn'),
+            document.querySelector('button[onclick*="showCollection"]'),
+            document.querySelector('.control-btn:contains("VIEW COLLECTION")'),
+            ...document.querySelectorAll('.control-btn')
+        ].filter(btn => btn && (
+            btn.textContent.toUpperCase().includes('COLLECTION') ||
+            btn.textContent.toUpperCase().includes('VIEW') ||
+            btn.id === 'viewCollectionBtn'
+        ));
+        
+        console.log(`📱 Found ${possibleButtons.length} potential collection buttons`);
+        
+        possibleButtons.forEach((btn, index) => {
+            if (btn) {
+                console.log(`📱 Setting up button ${index + 1}:`, btn.textContent);
+                
+                // Remove any existing event listeners
+                btn.removeAttribute('onclick');
+                
+                // Add new click handler
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    console.log('📱 VIEW COLLECTION button clicked!');
+                    
+                    try {
+                        // Try multiple ways to show collection
+                        if (window.game && typeof window.game.showCollection === 'function') {
+                            console.log('📱 Using window.game.showCollection()');
+                            window.game.showCollection();
+                        } else if (window.game && window.game.ui && typeof window.game.ui.showCollection === 'function') {
+                            console.log('📱 Using window.game.ui.showCollection()');
+                            window.game.ui.showCollection();
+                        } else if (typeof showCollection === 'function') {
+                            console.log('📱 Using global showCollection()');
+                            showCollection();
+                        } else if (window.game) {
+                            console.log('📱 Manually switching to collection screen');
+                            // Manually switch screens
+                            const gameScreen = document.querySelector('.game-screen');
+                            const collectionScreen = document.querySelector('.collection-screen');
+                            
+                            if (gameScreen && collectionScreen) {
+                                gameScreen.style.display = 'none';
+                                collectionScreen.style.display = 'block';
+                                console.log('✅ Switched to collection screen manually');
+                            } else {
+                                console.error('❌ Could not find screen elements');
+                            }
+                        } else {
+                            console.error('❌ No collection function found');
+                        }
+                    } catch (error) {
+                        console.error('❌ Error showing collection:', error);
+                    }
+                }, { passive: false });
+                
+                // Add touch feedback
+                btn.addEventListener('touchstart', function() {
+                    this.classList.add('touch-active');
+                    console.log('📱 Button touch started');
+                }, { passive: true });
+                
+                btn.addEventListener('touchend', function() {
+                    setTimeout(() => {
+                        this.classList.remove('touch-active');
+                    }, 150);
+                    console.log('📱 Button touch ended');
+                }, { passive: true });
+                
+                // Make sure button is properly styled and visible
+                btn.style.display = 'flex';
+                btn.style.visibility = 'visible';
+                btn.style.pointerEvents = 'auto';
+                btn.style.zIndex = '30';
+                
+                console.log('✅ Button setup complete');
+            }
+        });
+        
+        // Also check if we need to create the collection screen
+        if (!document.querySelector('.collection-screen')) {
+            console.log('📱 Creating collection screen...');
+            const collectionScreen = document.createElement('div');
+            collectionScreen.className = 'collection-screen screen';
+            collectionScreen.style.display = 'none';
+            collectionScreen.innerHTML = `
+                <div class="collection-header">
+                    <button class="back-btn" onclick="showGameScreen()">← Back to Camera</button>
+                    <h2>Your Collection</h2>
+                </div>
+                <div class="cards-grid" id="collectionGrid">
+                    <p style="text-align: center; padding: 2rem; color: var(--dark-gray);">
+                        No species discovered yet. Start capturing to build your collection!
+                    </p>
+                </div>
+            `;
+            document.body.appendChild(collectionScreen);
+            console.log('✅ Collection screen created');
+        }
+        
+    }, 1000);
+}
+
+// Call the fix when DOM is ready
+document.addEventListener('DOMContentLoaded', fixViewCollectionButtonMobile);
+
+// Also call after a delay to ensure everything is loaded
+setTimeout(fixViewCollectionButtonMobile, 2000);
+setTimeout(fixViewCollectionButtonMobile, 5000);
+
+// Add global function to show game screen
+window.showGameScreen = function() {
+    const gameScreen = document.querySelector('.game-screen');
+    const collectionScreen = document.querySelector('.collection-screen');
+    
+    if (gameScreen && collectionScreen) {
+        gameScreen.style.display = 'block';
+        collectionScreen.style.display = 'none';
+        console.log('📱 Switched back to game screen');
+    }
+};
+
+console.log('📱 View Collection button fix loaded');
