@@ -4831,3 +4831,197 @@ document.addEventListener('DOMContentLoaded', function() {
 */
 
 /* End of Streamlined Mobile Layout Fix */
+/* ========================================
+   📱 MOBILE COLLECTION BUTTON FIX
+   Add this at the VERY END of style.css
+   ======================================== */
+
+@media screen and (max-width: 768px) {
+    
+    /* ========================================
+       📱 MOBILE CAMERA CONTROLS FIX
+       ======================================== */
+    
+    .camera-controls {
+        padding: 1rem 0.5rem !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0.8rem !important;
+        align-items: stretch !important;
+        background: var(--off-white) !important;
+        position: relative !important;
+        z-index: 20 !important;
+    }
+    
+    /* Make all control buttons mobile-friendly */
+    .camera-controls .control-btn {
+        width: 100% !important;
+        max-width: none !important;
+        padding: 1rem 2rem !important;
+        font-size: 1rem !important;
+        border: 2px solid var(--primary-emerald) !important;
+        background: var(--off-white) !important;
+        color: var(--primary-emerald) !important;
+        text-align: center !important;
+        font-weight: 700 !important;
+        text-transform: uppercase !important;
+        cursor: pointer !important;
+        margin: 0 !important;
+        display: block !important;
+        position: relative !important;
+        z-index: 21 !important;
+        pointer-events: auto !important;
+        touch-action: manipulation !important;
+        -webkit-tap-highlight-color: rgba(0,0,0,0.1) !important;
+    }
+    
+    /* Specific fix for View Collection button */
+    #viewCollectionBtn,
+    .camera-controls button[onclick*="showCollection"],
+    .camera-controls .control-btn:nth-child(2) {
+        background: var(--primary-emerald) !important;
+        color: var(--off-white) !important;
+        border: 2px solid var(--rich-emerald) !important;
+        box-shadow: 0 4px 12px rgba(6, 78, 59, 0.2) !important;
+        font-weight: 800 !important;
+        min-height: 50px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    
+    /* Active/touch states for mobile */
+    .camera-controls .control-btn:active,
+    .camera-controls .control-btn.touch-active {
+        background: var(--deep-emerald) !important;
+        color: var(--off-white) !important;
+        transform: scale(0.98) !important;
+        box-shadow: 0 2px 8px rgba(6, 78, 59, 0.3) !important;
+    }
+    
+    /* Ensure View Collection button is always visible */
+    #viewCollectionBtn:active {
+        background: var(--deep-emerald) !important;
+        color: var(--off-white) !important;
+        transform: scale(0.98) !important;
+    }
+    
+    /* ========================================
+       📱 BUTTON ORDER AND SPACING
+       ======================================== */
+    
+    /* Make sure Start Camera is first */
+    #startCameraBtn {
+        order: 1 !important;
+    }
+    
+    /* Make sure View Collection is second and prominent */
+    #viewCollectionBtn {
+        order: 2 !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    /* Other buttons follow */
+    .camera-controls .control-btn:not(#startCameraBtn):not(#viewCollectionBtn) {
+        order: 3 !important;
+    }
+    
+    /* ========================================
+       📱 TOUCH INTERACTION IMPROVEMENTS
+       ======================================== */
+    
+    /* Remove any conflicting hover states on mobile */
+    .camera-controls .control-btn:hover {
+        transform: none !important;
+        box-shadow: 0 4px 12px rgba(6, 78, 59, 0.2) !important;
+    }
+    
+    /* Add better touch feedback */
+    .camera-controls .control-btn::before {
+        content: '' !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        background: rgba(255, 255, 255, 0.1) !important;
+        opacity: 0 !important;
+        transition: opacity 0.2s ease !important;
+        pointer-events: none !important;
+    }
+    
+    .camera-controls .control-btn:active::before,
+    .camera-controls .control-btn.touch-active::before {
+        opacity: 1 !important;
+    }
+    
+    /* ========================================
+       📱 DEBUGGING - MAKE BUTTONS VERY OBVIOUS
+       ======================================== */
+    
+    /* Temporary visual debugging - remove after testing */
+    .camera-controls {
+        border: 2px solid red !important;
+        background: yellow !important;
+    }
+    
+    .camera-controls .control-btn {
+        border: 3px solid blue !important;
+        background: lime !important;
+        color: black !important;
+        font-size: 1.2rem !important;
+        font-weight: 900 !important;
+    }
+    
+    #viewCollectionBtn {
+        background: purple !important;
+        color: white !important;
+        border: 3px solid orange !important;
+    }
+}
+
+/* ========================================
+   📱 ULTRA-SMALL MOBILE BUTTON FIX
+   ======================================== */
+
+@media screen and (max-width: 480px) {
+    
+    .camera-controls .control-btn {
+        padding: 1.2rem 2rem !important;
+        font-size: 1.1rem !important;
+        min-height: 55px !important;
+    }
+    
+    #viewCollectionBtn {
+        font-size: 1.3rem !important;
+        font-weight: 900 !important;
+        min-height: 60px !important;
+        padding: 1.5rem 2rem !important;
+    }
+}
+
+/* ========================================
+   📱 REMOVE DEBUGGING AFTER TESTING
+   ======================================== */
+
+/* 
+After you confirm the button works, REMOVE this section:
+
+.camera-controls {
+    border: 2px solid red !important;
+    background: yellow !important;
+}
+
+.camera-controls .control-btn {
+    border: 3px solid blue !important;
+    background: lime !important;
+    color: black !important;
+}
+
+#viewCollectionBtn {
+    background: purple !important;
+    color: white !important;
+    border: 3px solid orange !important;
+}
+
+*/
