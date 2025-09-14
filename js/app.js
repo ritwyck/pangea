@@ -280,16 +280,24 @@ class InsectDetectionGame {
     }
 
     async captureDiscovery() {
-        if (!this.camera.isReady()) {
-            this.ui.showNotification('Camera is not ready. Please wait a moment.', 'warning');
-            return;
-        }
+    if (!this.camera.isReady()) {
+        this.ui.showNotification('Camera is not ready. Please wait a moment.', 'warning');
+        return;
+    }
 
-        const currentDetection = this.detection.getCurrentDetection();
-        if (!currentDetection) {
-            this.ui.showNotification('No species detected. Please wait for detection.', 'warning');
-            return;
-        }
+    const currentDetection = this.detection.getCurrentDetection();
+    if (!currentDetection) {
+        this.ui.showNotification('No species detected. Please wait for detection.', 'warning');
+        return;
+    }
+
+    // Capture photo - THIS IS THE KEY LINE
+    const photo = this.camera.capturePhoto();
+    if (!photo) {
+        this.ui.showNotification('Failed to capture photo. Please try again.', 'error');
+        return;
+    }
+
 
         // Get current location for mapping
         let currentLocation = null;
@@ -299,12 +307,7 @@ class InsectDetectionGame {
             console.warn('Could not get current location for mapping');
         }
 
-        // Capture photo
-        const photo = this.camera.capturePhoto();
-        if (!photo) {
-            this.ui.showNotification('Failed to capture photo. Please try again.', 'error');
-            return;
-        }
+    
 
         // Determine rarity and apply weather bonus
         const rarity = this.determineRarity(currentDetection);
@@ -333,13 +336,12 @@ class InsectDetectionGame {
         };
 
         // Save discovery
-        const result = this.storage.addDiscovery(
-            enhancedDiscovery.species,
-            enhancedDiscovery.points,
-            enhancedDiscovery.photo,
-            enhancedDiscovery.confidence
-        );
-
+   const result = this.storage.addDiscovery(
+        enhancedDiscovery.species,
+        enhancedDiscovery.points,
+        photo,  // ← Make sure this photo variable is passed here
+        enhancedDiscovery.confidence
+    );
         if (result) {
             // Add to mapping system
             if (currentLocation) {
