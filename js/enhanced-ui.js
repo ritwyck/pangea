@@ -298,4 +298,494 @@ class EnhancedUI {
         };
         return icons[type] || icons.info;
     }
+    // Add these methods to the existing EnhancedUI class
+
+createRewardsModal() {
+    const modal = document.createElement('div');
+    modal.id = 'rewardsModal';
+    modal.className = 'modal rewards-modal';
+    modal.innerHTML = `
+        <div class="modal-content rewards-content">
+            <div class="modal-header">
+                <h2>🎁 Partner Rewards</h2>
+                <div class="user-points">
+                    Available: <span id="rewardsUserPoints">0</span> points
+                </div>
+                <button class="close-btn" onclick="this.closest('.modal').style.display='none'">×</button>
+            </div>
+            
+            <div class="rewards-tabs">
+                <button class="rewards-tab active" data-category="all">All Rewards</button>
+                <button class="rewards-tab" data-category="transport">🚌 Transport</button>
+                <button class="rewards-tab" data-category="food">☕ Food & Drink</button>
+                <button class="rewards-tab" data-category="shopping">🛍️ Shopping</button>
+                <button class="rewards-tab" data-category="experiences">🎭 Experiences</button>
+                <button class="rewards-tab" data-category="vouchers">🎫 My Vouchers</button>
+            </div>
+            
+            <div class="rewards-content-area" id="rewardsContentArea">
+                <!-- Content will be populated here -->
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    
+    // Bind tab events
+    document.querySelectorAll('.rewards-tab').forEach(tab => {
+        tab.onclick = () => {
+            document.querySelectorAll('.rewards-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            this.updateRewardsContent(tab.dataset.category);
+        };
+    });
+}
+
+createDataExportModal() {
+    const modal = document.createElement('div');
+    modal.id = 'dataExportModal';
+    modal.className = 'modal data-export-modal';
+    modal.innerHTML = `
+        <div class="modal-content export-content">
+            <div class="modal-header">
+                <h2>📊 Export Scientific Data</h2>
+                <div class="export-subtitle">
+                    Download anonymized biodiversity data for research and analysis
+                </div>
+                <button class="close-btn" onclick="this.closest('.modal').style.display='none'">×</button>
+            </div>
+            
+            <div class="export-form" id="exportForm">
+                <div class="form-section">
+                    <h3>🔍 Data Filters</h3>
+                    <div class="filter-grid">
+                        <div class="filter-group">
+                            <label>Species Selection:</label>
+                            <div class="species-selector" id="speciesSelector">
+                                <button class="select-all-btn" onclick="this.parentElement.querySelectorAll('input').forEach(cb => cb.checked = true)">Select All</button>
+                                <button class="clear-all-btn" onclick="this.parentElement.querySelectorAll('input').forEach(cb => cb.checked = false)">Clear All</button>
+                            </div>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="startDate">Start Date:</label>
+                            <input type="date" id="startDate" class="date-input">
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="endDate">End Date:</label>
+                            <input type="date" id="endDate" class="date-input">
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label>Weather Conditions:</label>
+                            <div class="checkbox-group">
+                                <label><input type="checkbox" value="sunny" checked> ☀️ Sunny</label>
+                                <label><input type="checkbox" value="cloudy" checked> ☁️ Cloudy</label>
+                                <label><input type="checkbox" value="rainy" checked> 🌧️ Rainy</label>
+                                <label><input type="checkbox" value="overcast" checked> ⛅ Overcast</label>
+                            </div>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="minConfidence">Minimum Confidence:</label>
+                            <input type="range" id="minConfidence" min="0" max="100" value="60" class="confidence-slider">
+                            <span class="confidence-value">60%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3>🔒 Privacy & Anonymization</h3>
+                    <div class="anonymization-grid">
+                        <div class="privacy-group">
+                            <label>Location Privacy:</label>
+                            <select id="locationAnonymization">
+                                <option value="precision_reduction">Reduced Precision (~100m)</option>
+                                <option value="grid_snapping">Grid Snapping (~1km)</option>
+                                <option value="area_generalization">District Level Only</option>
+                            </select>
+                            <small>Higher levels provide better privacy protection</small>
+                        </div>
+                        
+                        <div class="privacy-group">
+                            <label>Time Privacy:</label>
+                            <select id="timeAnonymization">
+                                <option value="hour_generalization">Hour Level</option>
+                                <option value="day_generalization">Day Level</option>
+                                <option value="season_generalization">Season Level</option>
+                            </select>
+                            <small>Reduces temporal precision for privacy</small>
+                        </div>
+                    </div>
+                    
+                    <div class="privacy-notice">
+                        <strong>🛡️ Privacy Guarantee:</strong> All personal data (photos, usernames, exact locations) 
+                        are automatically removed. Only species, general location, time, and environmental data are included.
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3>📁 Export Format</h3>
+                    <div class="format-selector">
+                        <label class="format-option">
+                            <input type="radio" name="exportFormat" value="csv" checked>
+                            <span class="format-label">
+                                <strong>CSV</strong> - Spreadsheet compatible
+                                <small>Best for Excel, Google Sheets, statistical analysis</small>
+                            </span>
+                        </label>
+                        <label class="format-option">
+                            <input type="radio" name="exportFormat" value="json">
+                            <span class="format-label">
+                                <strong>JSON</strong> - Structured data
+                                <small>Best for programming, web applications, APIs</small>
+                            </span>
+                        </label>
+                        <label class="format-option">
+                            <input type="radio" name="exportFormat" value="geojson">
+                            <span class="format-label">
+                                <strong>GeoJSON</strong> - Geographic data
+                                <small>Best for GIS software, mapping applications</small>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="export-preview" id="exportPreview">
+                    <!-- Preview will be populated here -->
+                </div>
+                
+                <div class="export-actions">
+                    <button class="preview-btn" id="previewDataBtn">📋 Preview Data</button>
+                    <button class="export-btn" id="exportDataBtn">📥 Download Dataset</button>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    
+    // Initialize export form
+    this.initializeExportForm();
+}
+
+initializeExportForm() {
+    const dataExport = this.game.dataExport;
+    
+    // Populate species selector
+    const speciesSelector = document.getElementById('speciesSelector');
+    const availableSpecies = dataExport.getAvailableSpecies();
+    
+    availableSpecies.forEach(species => {
+        const label = document.createElement('label');
+        label.innerHTML = `<input type="checkbox" value="${species}" checked> ${species}`;
+        speciesSelector.appendChild(label);
+    });
+    
+    // Set date range limits
+    const dateRange = dataExport.getDataDateRange();
+    if (dateRange.earliest) {
+        document.getElementById('startDate').value = dateRange.earliest;
+        document.getElementById('startDate').min = dateRange.earliest;
+    }
+    if (dateRange.latest) {
+        document.getElementById('endDate').value = dateRange.latest;
+        document.getElementById('endDate').max = dateRange.latest;
+    }
+    
+    // Confidence slider
+    const confidenceSlider = document.getElementById('minConfidence');
+    const confidenceValue = document.querySelector('.confidence-value');
+    confidenceSlider.oninput = () => {
+        confidenceValue.textContent = confidenceSlider.value + '%';
+    };
+    
+    // Preview button
+    document.getElementById('previewDataBtn').onclick = () => this.previewExportData();
+    
+    // Export button
+    document.getElementById('exportDataBtn').onclick = () => this.executeDataExport();
+}
+
+showRewards() {
+    if (!document.getElementById('rewardsModal')) {
+        this.createRewardsModal();
+    }
+    
+    const modal = document.getElementById('rewardsModal');
+    const userProfile = this.game.storage.getUserProfile();
+    document.getElementById('rewardsUserPoints').textContent = userProfile ? userProfile.totalPoints.toLocaleString() : '0';
+    
+    this.updateRewardsContent('all');
+    modal.style.display = 'flex';
+}
+
+updateRewardsContent(category) {
+    const contentArea = document.getElementById('rewardsContentArea');
+    const rewards = this.game.rewards;
+    
+    if (category === 'vouchers') {
+        this.showActiveVouchers(contentArea);
+    } else {
+        this.showRewardsCatalog(contentArea, category);
+    }
+}
+
+showRewardsCatalog(container, category) {
+    const allRewards = this.game.rewards.getAllRewards();
+    const filteredRewards = category === 'all' ? allRewards : allRewards.filter(r => r.category === category);
+    const userProfile = this.game.storage.getUserProfile();
+    const userPoints = userProfile ? userProfile.totalPoints : 0;
+    
+    const groupedRewards = {};
+    filteredRewards.forEach(reward => {
+        if (!groupedRewards[reward.category]) {
+            groupedRewards[reward.category] = [];
+        }
+        groupedRewards[reward.category].push(reward);
+    });
+    
+    let html = '';
+    Object.entries(groupedRewards).forEach(([cat, rewards]) => {
+        const categoryIcons = {
+            transport: '🚌',
+            food: '☕',
+            shopping: '🛍️',
+            experiences: '🎭'
+        };
+        
+        html += `
+            <div class="reward-category">
+                <h3>${categoryIcons[cat]} ${cat.charAt(0).toUpperCase() + cat.slice(1)}</h3>
+                <div class="reward-grid">
+                    ${rewards.map(reward => `
+                        <div class="reward-card ${userPoints >= reward.cost ? 'affordable' : 'expensive'}">
+                            <div class="reward-icon">${reward.icon}</div>
+                            <div class="reward-details">
+                                <h4>${reward.name}</h4>
+                                <div class="reward-partner">${reward.partner}</div>
+                                <div class="reward-description">${reward.description}</div>
+                                <div class="reward-value">Value: ${reward.value}</div>
+                                <div class="reward-availability">${reward.availability}</div>
+                            </div>
+                            <div class="reward-cost">${reward.cost.toLocaleString()} points</div>
+                            <button class="redeem-reward-btn" 
+                                    data-reward-id="${reward.id}" 
+                                    ${userPoints < reward.cost ? 'disabled' : ''}>
+                                ${userPoints >= reward.cost ? 'Redeem Now' : 'Not Enough Points'}
+                            </button>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+    
+    // Bind redeem buttons
+    container.querySelectorAll('.redeem-reward-btn').forEach(btn => {
+        btn.onclick = () => this.handleRewardRedemption(btn.dataset.rewardId);
+    });
+}
+
+showActiveVouchers(container) {
+    const activeVouchers = this.game.rewards.getActiveVouchers();
+    const stats = this.game.rewards.getRedemptionStats();
+    
+    let html = `
+        <div class="voucher-stats">
+            <div class="stat-card">
+                <div class="stat-value">${stats.activeVouchers}</div>
+                <div class="stat-label">Active Vouchers</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">${stats.totalRedeemed}</div>
+                <div class="stat-label">Total Redeemed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">€${stats.totalValue}</div>
+                <div class="stat-label">Total Value</div>
+            </div>
+        </div>
+        
+        <div class="vouchers-list">
+    `;
+    
+    if (activeVouchers.length === 0) {
+        html += `
+            <div class="no-vouchers">
+                <h3>No Active Vouchers</h3>
+                <p>Redeem rewards to get vouchers you can use at partner locations!</p>
+            </div>
+        `;
+    } else {
+        html += activeVouchers.map(voucher => {
+            const expiresIn = Math.ceil((new Date(voucher.expiresAt) - new Date()) / (1000 * 60 * 60 * 24));
+            return `
+                <div class="voucher-card ${expiresIn <= 7 ? 'expiring-soon' : ''}">
+                    <div class="voucher-header">
+                        <h4>${voucher.rewardName}</h4>
+                        <div class="voucher-code">${voucher.voucherCode}</div>
+                    </div>
+                    <div class="voucher-partner">${voucher.partner}</div>
+                    <div class="voucher-expiry">
+                        Expires in ${expiresIn} day${expiresIn !== 1 ? 's' : ''}
+                        ${expiresIn <= 7 ? '<span class="warning">⚠️ Expiring Soon!</span>' : ''}
+                    </div>
+                    <div class="voucher-instructions">
+                        ${voucher.instructions}
+                    </div>
+                    <div class="voucher-actions">
+                        <button class="copy-code-btn" onclick="navigator.clipboard.writeText('${voucher.voucherCode}'); this.textContent='Copied!'; setTimeout(() => this.textContent='Copy Code', 2000)">Copy Code</button>
+                        <button class="mark-used-btn" onclick="this.closest('.voucher-card').classList.add('used'); this.disabled=true">Mark as Used</button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+    
+    html += '</div>';
+    container.innerHTML = html;
+}
+
+handleRewardRedemption(rewardId) {
+    const userProfile = this.game.storage.getUserProfile();
+    const result = this.game.rewards.redeemReward(rewardId, userProfile.totalPoints);
+    
+    if (result.success) {
+        // Deduct points from user profile
+        const gameData = this.game.storage.getGameData();
+        gameData.userProfile.totalPoints -= result.redemption.pointsSpent;
+        this.game.storage.saveGameData(gameData);
+        
+        // Show success modal
+        this.showVoucherModal(result.redemption);
+        
+        // Update UI
+        this.game.updateAllUI();
+        
+        // Refresh rewards modal
+        this.updateRewardsContent('vouchers');
+        
+        this.showNotification(`Reward redeemed! Voucher code: ${result.redemption.voucherCode}`, 'success', 5000);
+    } else {
+        this.showNotification(`Failed to redeem reward: ${result.error}`, 'error');
+    }
+}
+
+showVoucherModal(redemption) {
+    const modal = document.createElement('div');
+    modal.className = 'modal voucher-success-modal';
+    modal.innerHTML = `
+        <div class="modal-content voucher-success-content">
+            <h2>🎉 Reward Redeemed!</h2>
+            <div class="voucher-display">
+                <div class="voucher-code-display">${redemption.voucherCode}</div>
+                <h3>${redemption.rewardName}</h3>
+                <div class="voucher-partner">${redemption.partner}</div>
+                <div class="voucher-instructions">
+                    ${redemption.instructions}
+                </div>
+                <div class="voucher-expiry">
+                    Valid until: ${new Date(redemption.expiresAt).toLocaleDateString()}
+                </div>
+            </div>
+            <div class="voucher-actions">
+                <button class="copy-voucher-btn" onclick="navigator.clipboard.writeText('${redemption.voucherCode}'); this.textContent='Copied!';">Copy Voucher Code</button>
+                <button class="modal-btn" onclick="this.closest('.modal').remove()">Got It!</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    modal.style.display = 'flex';
+}
+
+showDataExport() {
+    if (!document.getElementById('dataExportModal')) {
+        this.createDataExportModal();
+    }
+    
+    document.getElementById('dataExportModal').style.display = 'flex';
+}
+
+previewExportData() {
+    const filters = this.getExportFilters();
+    const anonymizationSettings = this.getAnonymizationSettings();
+    
+    // Get preview data (first 10 records)
+    const rawData = this.game.dataExport.getRawDiscoveryData();
+    const filteredData = this.game.dataExport.applyFilters(rawData, filters);
+    const anonymizedData = this.game.dataExport.anonymizeData(filteredData.slice(0, 10), anonymizationSettings);
+    
+    const previewContainer = document.getElementById('exportPreview');
+    previewContainer.innerHTML = `
+        <div class="preview-section">
+            <h3>📋 Data Preview</h3>
+            <div class="preview-stats">
+                <span><strong>Total Records:</strong> ${filteredData.length.toLocaleString()}</span>
+                <span><strong>Preview Showing:</strong> ${Math.min(10, filteredData.length)} records</span>
+                <span><strong>Anonymization Level:</strong> ${anonymizedData[0]?.anonymization_level || 'N/A'}</span>
+            </div>
+            <div class="preview-table">
+                <table>
+                    <thead>
+                        <tr>
+                            ${anonymizedData.length > 0 ? Object.keys(anonymizedData[0]).map(key => `<th>${key}</th>`).join('') : ''}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${anonymizedData.map(record => 
+                            `<tr>${Object.values(record).map(value => `<td>${value || 'N/A'}</td>`).join('')}</tr>`
+                        ).join('')}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `;
+}
+
+executeDataExport() {
+    const filters = this.getExportFilters();
+    const anonymizationSettings = this.getAnonymizationSettings();
+    const format = document.querySelector('input[name="exportFormat"]:checked').value;
+    
+    const result = this.game.dataExport.exportData(filters, anonymizationSettings, format);
+    
+    if (result.success) {
+        this.showNotification(`📥 Dataset exported! ${result.recordsExported} records in ${result.filename}`, 'success', 5000);
+        
+        // Close modal after short delay
+        setTimeout(() => {
+            document.getElementById('dataExportModal').style.display = 'none';
+        }, 2000);
+    } else {
+        this.showNotification(`Export failed: ${result.error}`, 'error');
+    }
+}
+
+getExportFilters() {
+    const selectedSpecies = Array.from(document.querySelectorAll('#speciesSelector input:checked')).map(cb => cb.value);
+    const selectedWeather = Array.from(document.querySelectorAll('.checkbox-group input:checked')).map(cb => cb.value);
+    
+    return {
+        species: selectedSpecies,
+        startDate: document.getElementById('startDate').value,
+        endDate: document.getElementById('endDate').value,
+        weather: selectedWeather,
+        minConfidence: parseInt(document.getElementById('minConfidence').value)
+    };
+}
+
+getAnonymizationSettings() {
+    return {
+        location: {
+            method: document.getElementById('locationAnonymization').value,
+            parameter: 3 // Default precision
+        },
+        temporal: {
+            method: document.getElementById('timeAnonymization').value
+        }
+    };
+}
+
 }
