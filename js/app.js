@@ -54,7 +54,7 @@ class InsectDetectionGame {
             setTimeout(() => this.showCommunityRegistration(), 2000);
         }
         
-        this.ui.showNotification('🌟 Welcome to Complete Nature Detective!', 'success', 4000);
+        this.ui.showNotification('🌟 Welcome to PanGEO!', 'success', 4000);
         console.log('Complete enhanced game initialized successfully');
     }
 
@@ -907,7 +907,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.game.ui.showNotification(`Added ${points} community points!`, 'success');
     };
     
-    console.log('🔍 Complete Enhanced Nature Detective Game Loaded!');
+    console.log('Complete Enhanced PanGEO Game Loaded!');
     console.log('Debug commands: resetGame(), exportData(), addXP(amount), joinNeighborhood(id, username), showMap(), addCommunityPoints(amount)');
 });
 

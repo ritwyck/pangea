@@ -314,7 +314,7 @@ class DataExportSystem {
             metadata: {
                 exportDate: new Date().toISOString(),
                 recordCount: features.length,
-                source: 'Nature Detective Community',
+                source: 'PanGEO Community',
                 crs: 'EPSG:4326'
             },
             features: features
