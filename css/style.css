@@ -3827,3 +3827,401 @@ body {
 }
 
 /* End of Mobile Optimization */
+/* ========================================
+   🚨 URGENT MOBILE CAMERA FIX
+   Add this at the VERY END of style.css
+   ======================================== */
+
+/* Force Mobile Camera Visibility */
+@media screen and (max-width: 768px) {
+    
+    /* ========================================
+       📱 MOBILE CAMERA CONTAINER FIX
+       ======================================== */
+    
+    .camera-container {
+        position: relative !important;
+        width: calc(100vw - 1rem) !important;
+        max-width: none !important;
+        margin: 0.5rem !important;
+        height: auto !important;
+        z-index: 10 !important;
+        background: var(--off-white) !important;
+        border: 2px solid var(--primary-emerald) !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    
+    /* Force Video Element Visibility */
+    #videoElement {
+        width: 100% !important;
+        height: 300px !important;
+        min-height: 300px !important;
+        max-height: 400px !important;
+        object-fit: cover !important;
+        background: #000 !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        z-index: 1 !important;
+    }
+    
+    /* Ensure Camera Screen is Always Visible */
+    .game-screen {
+        display: block !important;
+    }
+    
+    .game-screen .camera-container {
+        display: block !important;
+    }
+    
+    /* Hide Collection Screen When in Camera Mode */
+    .collection-screen {
+        display: none !important;
+    }
+    
+    /* Make sure camera shows when game is active */
+    .game-screen.active .camera-container,
+    .app-container .camera-container {
+        display: block !important;
+        visibility: visible !important;
+    }
+    
+    /* ========================================
+       📱 MOBILE NAVIGATION FIX
+       ======================================== */
+    
+    .nav-bar {
+        position: relative !important;
+        padding: 1rem !important;
+        z-index: 100 !important;
+    }
+    
+    .nav-content {
+        flex-direction: column !important;
+        gap: 1rem !important;
+        align-items: center !important;
+    }
+    
+    .nav-content h1 {
+        font-size: 1.5rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .user-stats {
+        width: 100% !important;
+        justify-content: space-between !important;
+        gap: 0.5rem !important;
+    }
+    
+    .points, .discoveries {
+        flex: 1 !important;
+        padding: 0.8rem 1rem !important;
+        font-size: 0.8rem !important;
+        text-align: center !important;
+    }
+    
+    /* ========================================
+       📱 MOBILE PROGRESS BAR
+       ======================================== */
+    
+    .progress-container {
+        padding: 1rem !important;
+        margin: 0 !important;
+    }
+    
+    .level-info {
+        flex-direction: column !important;
+        text-align: center !important;
+        gap: 0.5rem !important;
+    }
+    
+    .level-badge {
+        align-self: center !important;
+        font-size: 0.7rem !important;
+        padding: 0.5rem 1rem !important;
+    }
+    
+    .xp-bar {
+        height: 12px !important;
+        margin: 0.5rem 0 !important;
+    }
+    
+    /* ========================================
+       📱 MOBILE DETECTION OVERLAY
+       ======================================== */
+    
+    .detection-overlay {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        background: transparent !important;
+        z-index: 5 !important;
+        pointer-events: none !important;
+    }
+    
+    .detection-box {
+        position: absolute !important;
+        bottom: 20px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        top: auto !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        color: var(--primary-emerald) !important;
+        padding: 1rem !important;
+        text-align: center !important;
+        border: 2px solid var(--primary-emerald) !important;
+        min-width: 250px !important;
+        max-width: calc(100vw - 2rem) !important;
+        backdrop-filter: blur(10px) !important;
+        z-index: 6 !important;
+        font-size: 0.9rem !important;
+    }
+    
+    .species-info h3 {
+        font-size: 1.1rem !important;
+        margin-bottom: 0.5rem !important;
+        color: var(--primary-emerald) !important;
+    }
+    
+    .confidence {
+        font-size: 0.9rem !important;
+        margin-bottom: 0.3rem !important;
+    }
+    
+    .points-preview {
+        font-size: 1rem !important;
+        margin-top: 0.3rem !important;
+        color: var(--rich-emerald) !important;
+    }
+    
+    /* ========================================
+       📱 MOBILE CAPTURE BUTTON
+       ======================================== */
+    
+    .capture-btn {
+        position: absolute !important;
+        bottom: 10px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        background: var(--emerald-gradient) !important;
+        color: var(--off-white) !important;
+        border: 2px solid var(--primary-emerald) !important;
+        padding: 1rem 2rem !important;
+        font-size: 1rem !important;
+        font-weight: 700 !important;
+        cursor: pointer !important;
+        z-index: 7 !important;
+        pointer-events: auto !important;
+        display: block !important;
+        visibility: visible !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.05em !important;
+    }
+    
+    .capture-btn:active {
+        transform: translateX(-50%) scale(0.95) !important;
+        background: var(--deep-emerald) !important;
+    }
+    
+    /* ========================================
+       📱 MOBILE CAMERA CONTROLS
+       ======================================== */
+    
+    .camera-controls {
+        padding: 2rem 1rem !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 1rem !important;
+        align-items: center !important;
+        background: var(--luxury-gradient) !important;
+    }
+    
+    .control-btn {
+        width: 100% !important;
+        max-width: 300px !important;
+        padding: 1rem 2rem !important;
+        font-size: 1rem !important;
+        border: 2px solid var(--primary-emerald) !important;
+        background: var(--off-white) !important;
+        color: var(--primary-emerald) !important;
+        text-align: center !important;
+        font-weight: 700 !important;
+        text-transform: uppercase !important;
+        cursor: pointer !important;
+    }
+    
+    .control-btn:active {
+        background: var(--primary-emerald) !important;
+        color: var(--off-white) !important;
+        transform: scale(0.98) !important;
+    }
+    
+    /* ========================================
+       📱 MOBILE WIDGET FIXES
+       ======================================== */
+    
+    .weather-widget {
+        position: absolute !important;
+        top: 10px !important;
+        left: 10px !important;
+        padding: 0.5rem !important;
+        font-size: 0.8rem !important;
+        z-index: 8 !important;
+        background: rgba(255, 255, 255, 0.9) !important;
+        border: 1px solid var(--light-gray) !important;
+    }
+    
+    .weather-condition {
+        display: none !important;
+    }
+    
+    /* ========================================
+       📱 MOBILE CHALLENGE PANEL
+       ======================================== */
+    
+    .challenge-panel {
+        position: fixed !important;
+        bottom: 1rem !important;
+        right: 1rem !important;
+        left: 1rem !important;
+        top: auto !important;
+        width: auto !important;
+        max-height: 40vh !important;
+        z-index: 99 !important;
+    }
+    
+    .challenge-panel.collapsed {
+        transform: translateY(calc(100% - 40px)) !important;
+    }
+    
+    .challenge-header {
+        padding: 0.8rem !important;
+    }
+    
+    .challenge-header h3 {
+        font-size: 0.9rem !important;
+    }
+    
+    .challenge-list {
+        max-height: calc(40vh - 50px) !important;
+        padding: 1rem !important;
+    }
+    
+    /* ========================================
+       📱 MOBILE RESET BUTTON
+       ======================================== */
+    
+    .reset-game-btn {
+        position: fixed !important;
+        bottom: 1rem !important;
+        left: 1rem !important;
+        padding: 0.6rem 1rem !important;
+        font-size: 0.8rem !important;
+        z-index: 98 !important;
+    }
+    
+    /* ========================================
+       📱 MOBILE NOTIFICATIONS
+       ======================================== */
+    
+    .notification-container {
+        position: fixed !important;
+        top: 1rem !important;
+        left: 1rem !important;
+        right: 1rem !important;
+        z-index: 999 !important;
+    }
+    
+    .notification {
+        width: 100% !important;
+        max-width: none !important;
+        margin-bottom: 0.5rem !important;
+        padding: 1rem !important;
+        font-size: 0.9rem !important;
+    }
+}
+
+/* ========================================
+   📱 ULTRA-SMALL MOBILE FIX
+   ======================================== */
+
+@media screen and (max-width: 480px) {
+    
+    .camera-container {
+        margin: 0.25rem !important;
+        width: calc(100vw - 0.5rem) !important;
+    }
+    
+    #videoElement {
+        height: 250px !important;
+        min-height: 250px !important;
+    }
+    
+    .nav-content h1 {
+        font-size: 1.3rem !important;
+    }
+    
+    .user-stats {
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+    }
+    
+    .points, .discoveries {
+        width: 100% !important;
+        padding: 0.6rem !important;
+        font-size: 0.8rem !important;
+    }
+    
+    .detection-box {
+        min-width: 200px !important;
+        padding: 0.8rem !important;
+        font-size: 0.8rem !important;
+    }
+    
+    .capture-btn {
+        padding: 0.8rem 1.5rem !important;
+        font-size: 0.9rem !important;
+    }
+}
+
+/* ========================================
+   📱 FORCE DISPLAY ON ALL MOBILE
+   ======================================== */
+
+@media screen and (max-width: 768px) {
+    
+    /* Make sure nothing is hidden on mobile */
+    .camera-container,
+    #videoElement,
+    .detection-overlay,
+    .capture-btn {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    
+    /* Ensure proper stacking order */
+    .nav-bar { z-index: 100 !important; }
+    .camera-container { z-index: 10 !important; }
+    #videoElement { z-index: 1 !important; }
+    .detection-overlay { z-index: 5 !important; }
+    .detection-box { z-index: 6 !important; }
+    .capture-btn { z-index: 7 !important; }
+    .weather-widget { z-index: 8 !important; }
+    .challenge-panel { z-index: 99 !important; }
+    .notification-container { z-index: 999 !important; }
+}
+
+/* ========================================
+   📱 MOBILE VIEWPORT META FIX
+   ======================================== */
+
+/* Add this to your HTML head section if not already there:
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+*/
+
+/* End of Mobile Camera Fix */
