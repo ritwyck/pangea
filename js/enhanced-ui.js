@@ -787,5 +787,62 @@ getAnonymizationSettings() {
         }
     };
 }
+// Replace the renderCollection method in enhanced-ui.js
+renderCollection() {
+    const discoveries = this.game.storage.getSpeciesCollection();
+    const grid = document.getElementById('collectionGrid');
+    
+    if (!grid) {
+        console.error('Collection grid not found');
+        return;
+    }
+    
+    if (discoveries.length === 0) {
+        grid.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 4rem; color: var(--dark-gray);">
+                <h3>No Species Discovered Yet</h3>
+                <p>Start capturing insects and plants to build your collection.</p>
+            </div>
+        `;
+        return;
+    }
+
+    console.log('📚 Rendering collection with discoveries:', discoveries);
+
+    grid.innerHTML = discoveries.map(discovery => {
+        // Debug: Check if photo exists
+        console.log(`🖼️ Discovery "${discovery.species}" has photo:`, !!discovery.photo);
+        
+        // Use the actual photo if it exists, otherwise use placeholder
+        const imageUrl = discovery.photo || 'https://via.placeholder.com/300x200?text=No+Photo';
+        const rarityClass = discovery.rarity || 'common';
+        
+        return `
+            <div class="species-card ${rarityClass}">
+                <div class="rarity-badge ${rarityClass}">${rarityClass.toUpperCase()}</div>
+                <img 
+                    class="card-image" 
+                    src="${imageUrl}" 
+                    alt="${discovery.species}"
+                    onerror="this.src='https://via.placeholder.com/300x200?text=Photo+Error'"
+                />
+                <div class="card-info">
+                    <h4>${discovery.species}</h4>
+                    <div class="card-stats">
+                        <span>Confidence: ${discovery.confidence}%</span>
+                        <span>Points: ${discovery.points}</span>
+                    </div>
+                    <div class="card-stats">
+                        <span>Discovered: ${discovery.date || new Date(discovery.timestamp).toLocaleDateString()}</span>
+                        <span>Rarity: ${rarityClass}</span>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    console.log('✅ Collection rendered successfully');
+}
+
 
 }
