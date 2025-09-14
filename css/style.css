@@ -2930,3 +2930,900 @@ body {
     letter-spacing: 0.05em;
     text-transform: uppercase;
 }
+
+/* ========================================
+   🎯 COMPLETE MOBILE OPTIMIZATION 
+   Add this to the END of your style.css
+   ======================================== */
+
+/* Mobile Viewport Fix */
+@viewport {
+    width: device-width;
+    zoom: 1.0;
+}
+
+/* Mobile-First Base Adjustments */
+@media screen and (max-width: 768px) {
+    
+    /* ========================================
+       📱 MOBILE NAVIGATION & HEADER
+       ======================================== */
+    
+    .nav-bar {
+        padding: 1rem 1.5rem !important;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        backdrop-filter: blur(20px);
+        border-bottom: 2px solid var(--primary-emerald);
+    }
+    
+    .nav-content {
+        flex-direction: column !important;
+        gap: 1.5rem !important;
+        align-items: center !important;
+    }
+    
+    .nav-content h1 {
+        font-size: 1.8rem !important;
+        text-align: center;
+        line-height: 1.2;
+    }
+    
+    .nav-content h1::before {
+        font-size: 1.6rem !important;
+    }
+    
+    .user-stats {
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 1rem !important;
+        width: 100%;
+    }
+    
+    .points, .discoveries {
+        flex: 1;
+        min-width: 120px;
+        text-align: center;
+        font-size: 0.9rem !important;
+        padding: 0.8rem 1rem !important;
+    }
+    
+    /* Progress Bar Mobile */
+    .progress-container {
+        padding: 1rem !important;
+        margin-top: 1rem !important;
+    }
+    
+    .level-info {
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+        text-align: center !important;
+    }
+    
+    .level-badge {
+        align-self: center;
+        font-size: 0.8rem !important;
+        padding: 0.5rem 1rem !important;
+    }
+    
+    .level-title {
+        font-size: 1rem !important;
+    }
+    
+    .xp-bar {
+        height: 16px !important;
+        margin: 1rem 0 !important;
+    }
+    
+    .xp-text {
+        font-size: 0.7rem !important;
+    }
+    
+    /* ========================================
+       📷 MOBILE CAMERA & DETECTION
+       ======================================== */
+    
+    .camera-container {
+        margin: 0.5rem !important;
+        max-width: none !important;
+        width: calc(100% - 1rem) !important;
+        border-width: 2px !important;
+    }
+    
+    #videoElement {
+        height: 60vh !important;
+        max-height: 400px !important;
+        min-height: 300px !important;
+        width: 100% !important;
+    }
+    
+    /* Mobile Detection Box */
+    .detection-box {
+        min-width: 250px !important;
+        max-width: calc(100vw - 2rem) !important;
+        padding: 1rem !important;
+        bottom: 10% !important;
+        top: auto !important;
+        transform: translateX(-50%) !important;
+        left: 50% !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        backdrop-filter: blur(10px) !important;
+    }
+    
+    .species-info h3 {
+        font-size: 1.2rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .confidence {
+        font-size: 0.9rem !important;
+        margin-bottom: 0.4rem !important;
+    }
+    
+    .points-preview {
+        font-size: 1rem !important;
+        margin-top: 0.4rem !important;
+    }
+    
+    /* Mobile Weather Widget */
+    .weather-widget {
+        top: 0.5rem !important;
+        left: 0.5rem !important;
+        padding: 0.5rem !important;
+        gap: 0.5rem !important;
+        font-size: 0.8rem !important;
+        border-width: 1px !important;
+    }
+    
+    .weather-icon {
+        font-size: 1.2rem !important;
+    }
+    
+    .weather-temp {
+        font-size: 1rem !important;
+    }
+    
+    .weather-condition {
+        display: none; /* Hide on small screens */
+    }
+    
+    .weather-bonus {
+        font-size: 0.6rem !important;
+        padding: 0.2rem 0.5rem !important;
+        top: -8px !important;
+        right: -8px !important;
+    }
+    
+    /* Mobile Capture Button */
+    .capture-btn {
+        bottom: 1rem !important;
+        padding: 1rem 2rem !important;
+        font-size: 1rem !important;
+        border-width: 2px !important;
+        min-width: 150px !important;
+    }
+    
+    /* ========================================
+       🎮 MOBILE CAMERA CONTROLS
+       ======================================== */
+    
+    .camera-controls {
+        padding: 2rem 1rem !important;
+        gap: 1rem !important;
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+    
+    .control-btn {
+        width: 100% !important;
+        max-width: 280px !important;
+        padding: 1rem 2rem !important;
+        font-size: 1rem !important;
+        border-width: 2px !important;
+        text-align: center;
+        display: block;
+    }
+    
+    .control-btn:active {
+        transform: scale(0.98) !important;
+        transition: transform 0.1s ease !important;
+    }
+    
+    /* ========================================
+       📚 MOBILE COLLECTION SCREEN
+       ======================================== */
+    
+    .collection-header {
+        padding: 2rem 1rem !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 1rem !important;
+    }
+    
+    .collection-header h2 {
+        font-size: 1.6rem !important;
+        margin-bottom: 1rem !important;
+    }
+    
+    /* Mobile Collection Buttons */
+    .collection-header .control-btn {
+        width: 100% !important;
+        margin-bottom: 0.5rem !important;
+        padding: 0.8rem 1.5rem !important;
+        font-size: 0.9rem !important;
+    }
+    
+    /* Mobile Cards Grid */
+    .cards-grid {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
+        padding: 2rem 1rem !important;
+    }
+    
+    .species-card {
+        padding: 1.5rem !important;
+        border-width: 2px !important;
+    }
+    
+    .species-card::before {
+        height: 6px !important;
+    }
+    
+    .card-image {
+        height: 180px !important;
+        margin-bottom: 1rem !important;
+    }
+    
+    .card-info h4 {
+        font-size: 1.2rem !important;
+        margin-bottom: 1rem !important;
+    }
+    
+    .card-stats {
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+        font-size: 1rem !important;
+    }
+    
+    .rarity-badge {
+        top: 15px !important;
+        right: 15px !important;
+        padding: 0.5rem 1rem !important;
+        font-size: 0.7rem !important;
+    }
+    
+    /* No Discoveries Mobile */
+    .no-discoveries {
+        padding: 3rem 1rem !important;
+        text-align: center !important;
+    }
+    
+    .no-discoveries h3 {
+        font-size: 1.3rem !important;
+        margin-bottom: 1rem !important;
+    }
+    
+    /* ========================================
+       🗂️ MOBILE MODALS & OVERLAYS
+       ======================================== */
+    
+    .modal {
+        padding: 1rem !important;
+        align-items: flex-start !important;
+        padding-top: 2rem !important;
+    }
+    
+    .modal-content {
+        width: 100% !important;
+        max-width: none !important;
+        max-height: calc(100vh - 4rem) !important;
+        padding: 2rem 1.5rem !important;
+        margin: 0 !important;
+        border-width: 2px !important;
+        overflow-y: auto !important;
+    }
+    
+    .modal-btn {
+        width: 100% !important;
+        padding: 1rem 2rem !important;
+        font-size: 1rem !important;
+        margin-top: 1.5rem !important;
+        border-width: 2px !important;
+    }
+    
+    .modal-btn:active {
+        transform: scale(0.98) !important;
+    }
+    
+    .close-btn {
+        top: 1rem !important;
+        right: 1rem !important;
+        font-size: 2rem !important;
+        padding: 0.5rem !important;
+        background: rgba(0,0,0,0.1) !important;
+        width: 40px !important;
+        height: 40px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    
+    /* ========================================
+       📊 MOBILE STATS & CARDS
+       ======================================== */
+    
+    .enhanced-stats {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem !important;
+        padding: 0 1rem !important;
+        margin: 2rem 0 !important;
+    }
+    
+    .stat-card {
+        padding: 2rem 1.5rem !important;
+        border-width: 2px !important;
+    }
+    
+    .stat-card::before {
+        height: 4px !important;
+    }
+    
+    .stat-value {
+        font-size: 2rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .stat-label {
+        font-size: 0.9rem !important;
+    }
+    
+    /* ========================================
+       🔔 MOBILE NOTIFICATIONS
+       ======================================== */
+    
+    .notification-container {
+        top: 1rem !important;
+        left: 1rem !important;
+        right: 1rem !important;
+        max-width: none !important;
+    }
+    
+    .notification {
+        max-width: none !important;
+        padding: 1rem !important;
+        border-left-width: 4px !important;
+        border-width: 1px !important;
+    }
+    
+    .notification-content {
+        gap: 1rem !important;
+    }
+    
+    .notification-icon {
+        font-size: 1.2rem !important;
+        min-width: 24px !important;
+    }
+    
+    .notification-message {
+        font-size: 0.9rem !important;
+        line-height: 1.4 !important;
+    }
+    
+    /* ========================================
+       🎯 MOBILE CHALLENGE PANEL
+       ======================================== */
+    
+    .challenge-panel {
+        position: fixed !important;
+        bottom: 1rem !important;
+        right: 1rem !important;
+        left: 1rem !important;
+        top: auto !important;
+        width: auto !important;
+        max-height: 50vh !important;
+        border-width: 2px !important;
+    }
+    
+    .challenge-panel.collapsed {
+        transform: translateY(calc(100% - 50px)) !important;
+    }
+    
+    .challenge-header {
+        padding: 1rem !important;
+        border-bottom-width: 2px !important;
+    }
+    
+    .challenge-header h3 {
+        font-size: 1rem !important;
+    }
+    
+    .collapse-arrow {
+        font-size: 1.2rem !important;
+    }
+    
+    .challenge-list {
+        padding: 1rem !important;
+        max-height: calc(50vh - 60px) !important;
+    }
+    
+    .challenge-item {
+        padding: 1.5rem !important;
+        margin-bottom: 1rem !important;
+        border-width: 2px !important;
+    }
+    
+    .challenge-item h4 {
+        font-size: 1rem !important;
+        margin-bottom: 0.8rem !important;
+    }
+    
+    .challenge-item p {
+        font-size: 0.9rem !important;
+        margin-bottom: 1rem !important;
+        line-height: 1.4 !important;
+    }
+    
+    .progress-bar {
+        height: 8px !important;
+        margin-bottom: 0.8rem !important;
+    }
+    
+    .progress-text {
+        font-size: 0.8rem !important;
+    }
+    
+    .challenge-reward {
+        font-size: 0.8rem !important;
+        padding: 0.5rem 1rem !important;
+    }
+    
+    /* ========================================
+       🔄 MOBILE RESET BUTTON
+       ======================================== */
+    
+    .reset-game-btn {
+        bottom: 1rem !important;
+        left: 1rem !important;
+        padding: 0.8rem 1.2rem !important;
+        font-size: 0.8rem !important;
+        border-width: 2px !important;
+        z-index: 999 !important;
+    }
+    
+    /* ========================================
+       🏘️ MOBILE COMMUNITY FEATURES
+       ======================================== */
+    
+    /* Community Dashboard */
+    .community-dashboard {
+        margin: 1rem !important;
+        padding: 1.5rem !important;
+        border-width: 2px !important;
+    }
+    
+    .dashboard-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 1rem !important;
+        margin-bottom: 2rem !important;
+        padding-bottom: 1rem !important;
+        border-bottom-width: 2px !important;
+    }
+    
+    .community-stats {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem !important;
+        margin-bottom: 2rem !important;
+    }
+    
+    /* Leaderboard Mobile */
+    .leaderboard-container {
+        padding: 1.5rem !important;
+        margin: 1rem 0 !important;
+        border-width: 2px !important;
+    }
+    
+    .leaderboard-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 1rem !important;
+        margin-bottom: 1.5rem !important;
+    }
+    
+    .leaderboard-tabs {
+        align-self: stretch !important;
+        justify-content: space-around !important;
+    }
+    
+    .tab-btn {
+        flex: 1 !important;
+        text-align: center !important;
+        padding: 0.8rem 1rem !important;
+        font-size: 0.8rem !important;
+        border-width: 2px !important;
+    }
+    
+    .leaderboard-item {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 1rem !important;
+        padding: 1rem !important;
+        border-left-width: 4px !important;
+    }
+    
+    .rank-badge {
+        align-self: center !important;
+        width: 30px !important;
+        height: 30px !important;
+        font-size: 0.9rem !important;
+        margin-right: 0 !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .member-info {
+        width: 100% !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0.5rem !important;
+    }
+    
+    .member-name {
+        font-size: 1rem !important;
+    }
+    
+    .member-stats {
+        flex-direction: column !important;
+        gap: 0.3rem !important;
+        font-size: 0.9rem !important;
+    }
+    
+    /* Redemption System Mobile */
+    .redemption-container {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
+        margin-top: 2rem !important;
+    }
+    
+    .redemption-section {
+        padding: 1.5rem !important;
+        border-width: 2px !important;
+    }
+    
+    .section-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 1rem !important;
+        margin-bottom: 1.5rem !important;
+        border-bottom-width: 2px !important;
+    }
+    
+    .redemption-list {
+        gap: 1.5rem !important;
+    }
+    
+    .redemption-item {
+        padding: 1.5rem !important;
+        border-width: 2px !important;
+    }
+    
+    .redemption-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0.5rem !important;
+    }
+    
+    .redeem-btn {
+        padding: 1rem !important;
+        font-size: 0.9rem !important;
+        border-width: 2px !important;
+    }
+}
+
+/* ========================================
+   📱 ULTRA-SMALL MOBILE (320px-480px)
+   ======================================== */
+
+@media screen and (max-width: 480px) {
+    
+    .nav-content h1 {
+        font-size: 1.5rem !important;
+    }
+    
+    .nav-content h1::before {
+        font-size: 1.3rem !important;
+    }
+    
+    .user-stats {
+        flex-direction: column !important;
+        gap: 0.8rem !important;
+    }
+    
+    .points, .discoveries {
+        width: 100% !important;
+        min-width: auto !important;
+    }
+    
+    #videoElement {
+        height: 50vh !important;
+        max-height: 300px !important;
+    }
+    
+    .detection-box {
+        min-width: 200px !important;
+        padding: 0.8rem !important;
+    }
+    
+    .species-info h3 {
+        font-size: 1rem !important;
+    }
+    
+    .confidence {
+        font-size: 0.8rem !important;
+    }
+    
+    .points-preview {
+        font-size: 0.9rem !important;
+    }
+    
+    .capture-btn {
+        padding: 0.8rem 1.5rem !important;
+        font-size: 0.9rem !important;
+    }
+    
+    .control-btn {
+        padding: 0.8rem 1.5rem !important;
+        font-size: 0.9rem !important;
+    }
+    
+    .collection-header {
+        padding: 1.5rem 1rem !important;
+    }
+    
+    .collection-header h2 {
+        font-size: 1.3rem !important;
+    }
+    
+    .cards-grid {
+        padding: 1.5rem 1rem !important;
+        gap: 1.5rem !important;
+    }
+    
+    .species-card {
+        padding: 1rem !important;
+    }
+    
+    .card-image {
+        height: 150px !important;
+    }
+    
+    .modal-content {
+        padding: 1.5rem 1rem !important;
+    }
+    
+    .challenge-panel {
+        bottom: 0.5rem !important;
+        left: 0.5rem !important;
+        right: 0.5rem !important;
+    }
+    
+    .reset-game-btn {
+        padding: 0.6rem 1rem !important;
+        font-size: 0.7rem !important;
+        bottom: 0.5rem !important;
+        left: 0.5rem !important;
+    }
+}
+
+/* ========================================
+   🤏 TOUCH INTERACTIONS & ACCESSIBILITY
+   ======================================== */
+
+@media (hover: none) and (pointer: coarse) {
+    
+    /* Touch-friendly interactions */
+    .control-btn:hover {
+        transform: none !important;
+    }
+    
+    .control-btn:active {
+        background: var(--deep-emerald) !important;
+        transform: scale(0.98) !important;
+    }
+    
+    .capture-btn:hover:not(:disabled) {
+        transform: translateX(-50%) !important;
+    }
+    
+    .capture-btn:active:not(:disabled) {
+        transform: translateX(-50%) scale(0.95) !important;
+    }
+    
+    .species-card:hover {
+        transform: none !important;
+    }
+    
+    .species-card:active {
+        transform: scale(0.98) !important;
+    }
+    
+    .modal-btn:hover {
+        transform: none !important;
+    }
+    
+    .modal-btn:active {
+        transform: scale(0.98) !important;
+    }
+    
+    /* Remove hover effects that don't work on touch */
+    .stat-card:hover {
+        transform: none !important;
+    }
+    
+    .challenge-item:hover {
+        border-color: var(--light-gray) !important;
+    }
+}
+
+/* ========================================
+   📱 MOBILE VIEWPORT FIXES
+   ======================================== */
+
+/* Fix for iOS Safari viewport issues */
+@supports (-webkit-touch-callout: none) {
+    .app-container {
+        min-height: -webkit-fill-available !important;
+    }
+    
+    #videoElement {
+        height: calc(-webkit-fill-available * 0.6) !important;
+    }
+    
+    .modal-content {
+        max-height: calc(-webkit-fill-available - 4rem) !important;
+    }
+}
+
+/* ========================================
+   🎨 MOBILE PERFORMANCE OPTIMIZATIONS
+   ======================================== */
+
+@media screen and (max-width: 768px) {
+    
+    /* Reduce animations for better performance */
+    * {
+        animation-duration: 0.2s !important;
+        transition-duration: 0.2s !important;
+    }
+    
+    /* Simplify complex gradients on mobile */
+    .species-card.legendary {
+        animation: none !important;
+        border-color: #DC2626 !important;
+        box-shadow: var(--medium-shadow) !important;
+    }
+    
+    /* Reduce backdrop blur for performance */
+    .modal {
+        backdrop-filter: none !important;
+        background: rgba(0, 0, 0, 0.8) !important;
+    }
+    
+    .weather-widget {
+        backdrop-filter: blur(5px) !important;
+    }
+    
+    .detection-box {
+        backdrop-filter: blur(5px) !important;
+    }
+}
+
+/* ========================================
+   📲 MOBILE-SPECIFIC UTILITIES
+   ======================================== */
+
+/* Prevent zoom on input focus */
+@media screen and (max-width: 768px) {
+    input, select, textarea {
+        font-size: 16px !important;
+    }
+}
+
+/* Safe area handling for notched devices */
+@media screen and (max-width: 768px) {
+    .nav-bar {
+        padding-top: max(1rem, env(safe-area-inset-top)) !important;
+    }
+    
+    .camera-controls {
+        padding-bottom: max(2rem, env(safe-area-inset-bottom)) !important;
+    }
+    
+    .challenge-panel {
+        bottom: max(1rem, env(safe-area-inset-bottom)) !important;
+    }
+    
+    .reset-game-btn {
+        bottom: max(1rem, env(safe-area-inset-bottom)) !important;
+    }
+}
+
+/* Hide elements that don't work well on mobile */
+@media screen and (max-width: 480px) {
+    .weather-condition {
+        display: none !important;
+    }
+    
+    .xp-fill::before {
+        display: none !important; /* Remove shimmer animation */
+    }
+}
+
+/* ========================================
+   🔧 MOBILE FIXES FOR SPECIFIC COMPONENTS  
+   ======================================== */
+
+/* Fix modal scrolling on mobile */
+@media screen and (max-width: 768px) {
+    .modal {
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+    
+    .modal-content {
+        overflow-y: visible !important;
+    }
+}
+
+/* Fix card grid responsiveness */
+@media screen and (max-width: 768px) {
+    .cards-grid {
+        display: block !important;
+    }
+    
+    .species-card {
+        display: block !important;
+        margin-bottom: 2rem !important;
+        width: 100% !important;
+    }
+}
+
+/* Fix challenge panel mobile positioning */
+@media screen and (max-width: 768px) {
+    .challenge-panel.collapsed .collapse-arrow {
+        transform: rotate(180deg) !important;
+    }
+}
+
+/* ========================================
+   ✨ FINAL MOBILE POLISH
+   ======================================== */
+
+/* Smooth scrolling for mobile */
+@media screen and (max-width: 768px) {
+    html {
+        scroll-behavior: smooth !important;
+        -webkit-text-size-adjust: 100% !important;
+    }
+    
+    body {
+        -webkit-font-smoothing: antialiased !important;
+        -moz-osx-font-smoothing: grayscale !important;
+        overflow-x: hidden !important;
+    }
+}
+
+/* Mobile font size adjustments */
+@media screen and (max-width: 768px) {
+    h1, h2, h3, h4, h5, h6 {
+        line-height: 1.2 !important;
+        word-wrap: break-word !important;
+    }
+    
+    p {
+        line-height: 1.4 !important;
+        word-wrap: break-word !important;
+    }
+}
+
+/* End of Mobile Optimization */
