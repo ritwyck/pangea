@@ -462,7 +462,7 @@ class InsectDetectionGame {
         this.updateUserStats();
         this.ui.updateProgressBar();
         this.ui.updateChallenges(this.dailyChallenges);
-        this.renderCollection();
+        this.ui.renderCollection();
     }
 
     updateUserStats() {
