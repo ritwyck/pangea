@@ -215,13 +215,15 @@ class InsectDetectionGame {
             this.startGame();
         });
 
-        document.getElementById('captureBtn').addEventListener('click', () => {
-            this.captureDiscovery();
-        });
+          document.getElementById('captureBtn').addEventListener('click', () => {
+        this.captureDiscovery();
+    });
 
-        document.getElementById('viewCollectionBtn').addEventListener('click', () => {
-            this.showCollection();
-        });
+
+       document.getElementById('viewCollectionBtn').addEventListener('click', () => {
+        this.showCollection();
+    });
+
 
         document.getElementById('backToGameBtn').addEventListener('click', () => {
             this.showGame();
