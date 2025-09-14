@@ -1211,3 +1211,114 @@ window.showGameScreen = function() {
 };
 
 console.log('📱 View Collection button fix loaded');
+// ========================================
+// 📱 CAMERA FLIP FUNCTIONALITY
+// ========================================
+
+class MobileCameraFlip {
+    constructor() {
+        this.currentFacingMode = 'environment'; // Start with back camera
+        this.videoElement = null;
+        this.currentStream = null;
+        this.setupCameraFlip();
+    }
+
+    setupCameraFlip() {
+        // Create flip button
+        this.createFlipButton();
+        
+        // Wait for video element to be available
+        setTimeout(() => {
+            this.videoElement = document.getElementById('videoElement');
+            if (this.videoElement) {
+                console.log('📱 Camera flip functionality ready');
+            }
+        }, 1000);
+    }
+
+    createFlipButton() {
+        // Create flip camera button
+        const flipButton = document.createElement('button');
+        flipButton.id = 'flipCameraBtn';
+        flipButton.className = 'flip-camera-btn';
+        flipButton.innerHTML = '🔄';
+        flipButton.title = 'Flip Camera';
+        
+        // Add click handler
+        flipButton.addEventListener('click', () => {
+            this.flipCamera();
+        });
+        
+        // Add to DOM
+        document.body.appendChild(flipButton);
+        
+        console.log('📱 Camera flip button created');
+    }
+
+    async flipCamera() {
+        try {
+            console.log('📱 Flipping camera...');
+            
+            // Stop current stream
+            if (this.currentStream) {
+                this.currentStream.getTracks().forEach(track => track.stop());
+            }
+            
+            // Toggle facing mode
+            this.currentFacingMode = this.currentFacingMode === 'environment' ? 'user' : 'environment';
+            
+            // Get new stream with flipped camera
+            const constraints = {
+                video: {
+                    facingMode: this.currentFacingMode,
+                    width: { ideal: 1280 },
+                    height: { ideal: 720 }
+                }
+            };
+            
+            this.currentStream = await navigator.mediaDevices.getUserMedia(constraints);
+            
+            // Apply to video element
+            if (this.videoElement) {
+                this.videoElement.srcObject = this.currentStream;
+                console.log(`📱 Camera flipped to: ${this.currentFacingMode}`);
+                
+                // Show notification
+                if (window.game && window.game.ui) {
+                    const cameraType = this.currentFacingMode === 'environment' ? 'Back' : 'Front';
+                    window.game.ui.showNotification(`Switched to ${cameraType} Camera`, 'success');
+                }
+            }
+            
+            // Update flip button icon
+            const flipBtn = document.getElementById('flipCameraBtn');
+            if (flipBtn) {
+                flipBtn.innerHTML = this.currentFacingMode === 'environment' ? '🔄' : '🔃';
+            }
+            
+        } catch (error) {
+            console.error('❌ Error flipping camera:', error);
+            
+            if (window.game && window.game.ui) {
+                window.game.ui.showNotification('Could not flip camera', 'error');
+            }
+        }
+    }
+}
+
+// Initialize camera flip functionality
+let mobileCameraFlip;
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.innerWidth <= 768) {
+        setTimeout(() => {
+            mobileCameraFlip = new MobileCameraFlip();
+        }, 2000);
+    }
+});
+
+// Make it globally accessible
+window.flipCamera = () => {
+    if (mobileCameraFlip) {
+        mobileCameraFlip.flipCamera();
+    }
+};

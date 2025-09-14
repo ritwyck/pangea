@@ -3950,3 +3950,200 @@ body {
         min-width: 100px !important;
     }
 }
+/* ========================================
+   📱 IMPROVED DETECTION OVERLAY
+   Add this to the end of your mobile CSS
+   ======================================== */
+
+@media screen and (max-width: 768px) {
+    
+    /* ========================================
+       📱 MINIMIZED DETECTION OVERLAY
+       ======================================== */
+    
+    .detection-overlay {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        background: transparent !important;
+        z-index: 15 !important;
+        pointer-events: none !important;
+    }
+    
+    .detection-box {
+        position: absolute !important;
+        top: 5px !important;
+        left: 5px !important;
+        right: 5px !important;
+        bottom: auto !important;
+        max-height: 60px !important;
+        transform: none !important;
+        background: rgba(0, 0, 0, 0.8) !important;
+        color: var(--off-white) !important;
+        padding: 0.5rem !important;
+        text-align: center !important;
+        border: 1px solid var(--primary-emerald) !important;
+        backdrop-filter: blur(8px) !important;
+        z-index: 16 !important;
+        font-size: 0.7rem !important;
+        border-radius: 4px !important;
+        overflow: hidden !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex-direction: column !important;
+    }
+    
+    .species-info {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 0.1rem !important;
+    }
+    
+    .species-info h3 {
+        font-size: 0.8rem !important;
+        margin: 0 !important;
+        color: var(--off-white) !important;
+        font-weight: 700 !important;
+        line-height: 1.1 !important;
+        max-height: 1.2em !important;
+        overflow: hidden !important;
+    }
+    
+    .confidence,
+    .points-preview {
+        font-size: 0.6rem !important;
+        margin: 0 !important;
+        display: inline-block !important;
+        color: var(--mint-emerald) !important;
+    }
+    
+    /* Hide detection box completely when no detection */
+    .detection-box:empty {
+        display: none !important;
+    }
+    
+    /* ========================================
+       📱 CAMERA FLIP BUTTON
+       ======================================== */
+    
+    .flip-camera-btn {
+        position: absolute !important;
+        top: 10px !important;
+        right: 10px !important;
+        width: 40px !important;
+        height: 40px !important;
+        background: rgba(0, 0, 0, 0.7) !important;
+        color: white !important;
+        border: 2px solid var(--primary-emerald) !important;
+        border-radius: 50% !important;
+        font-size: 1.2rem !important;
+        cursor: pointer !important;
+        z-index: 50 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        backdrop-filter: blur(10px) !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    .flip-camera-btn:active {
+        transform: scale(0.95) !important;
+        background: rgba(0, 0, 0, 0.9) !important;
+    }
+    
+    /* Position flip button relative to camera container */
+    .camera-container {
+        position: relative !important;
+    }
+    
+    .camera-container .flip-camera-btn {
+        position: absolute !important;
+        top: 10px !important;
+        right: 10px !important;
+        z-index: 50 !important;
+    }
+    
+    /* ========================================
+       📱 ALTERNATIVE: COMPACT SIDE DETECTION
+       ======================================== */
+    
+    /* If you want detection info on the side instead of top */
+    .detection-box.compact {
+        top: 50% !important;
+        left: 5px !important;
+        right: auto !important;
+        bottom: auto !important;
+        transform: translateY(-50%) !important;
+        width: 80px !important;
+        height: auto !important;
+        max-height: none !important;
+        writing-mode: vertical-rl !important;
+        text-orientation: mixed !important;
+        font-size: 0.6rem !important;
+    }
+    
+    /* ========================================
+       📱 DETECTION BOX ANIMATION
+       ======================================== */
+    
+    .detection-box {
+        animation: slideInTop 0.3s ease-out !important;
+    }
+    
+    @keyframes slideInTop {
+        from {
+            transform: translateY(-100%) !important;
+            opacity: 0 !important;
+        }
+        to {
+            transform: translateY(0) !important;
+            opacity: 1 !important;
+        }
+    }
+    
+    /* Hide after 5 seconds of no activity */
+    .detection-box.fade-out {
+        animation: fadeOut 1s ease-out forwards !important;
+    }
+    
+    @keyframes fadeOut {
+        from {
+            opacity: 1 !important;
+        }
+        to {
+            opacity: 0 !important;
+            transform: translateY(-20px) !important;
+        }
+    }
+}
+
+/* ========================================
+   📱 ULTRA-SMALL MOBILE ADJUSTMENTS
+   ======================================== */
+
+@media screen and (max-width: 480px) {
+    
+    .detection-box {
+        max-height: 50px !important;
+        font-size: 0.6rem !important;
+    }
+    
+    .species-info h3 {
+        font-size: 0.7rem !important;
+    }
+    
+    .confidence,
+    .points-preview {
+        font-size: 0.5rem !important;
+    }
+    
+    .flip-camera-btn {
+        width: 35px !important;
+        height: 35px !important;
+        font-size: 1rem !important;
+    }
+}
