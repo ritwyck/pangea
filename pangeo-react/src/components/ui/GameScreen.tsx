@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Loading } from './Loading';
-import { Camera, RotateCcw, BookOpen, Target, Trophy, RefreshCw, Search, Video } from 'lucide-react';
+import { Camera, RotateCcw, BookOpen, Target, Trophy, RefreshCw, Search, Video, Zap, Eye } from 'lucide-react';
 import type { UseCameraReturn, UseDetectionReturn } from '../../types';
 
 interface GameScreenProps {
@@ -21,8 +21,17 @@ export const GameScreen: React.FC<GameScreenProps> = ({
   const [isProcessing, setIsProcessing] = useState(false);
   const [captureFeedback, setCaptureFeedback] = useState(false);
   const [cameraStarting, setCameraStarting] = useState(false);
+  const [showInstructions, setShowInstructions] = useState(false);
 
   const currentDetection = detection.getCurrentDetection();
+
+  // Show instructions on first load
+  useEffect(() => {
+    if (!camera.isReady && !localStorage.getItem('pangeo-instructions-shown')) {
+      setShowInstructions(true);
+      localStorage.setItem('pangeo-instructions-shown', 'true');
+    }
+  }, [camera.isReady]);
 
   const handleCapture = async () => {
     if (isProcessing || !currentDetection) return;
@@ -32,8 +41,6 @@ export const GameScreen: React.FC<GameScreenProps> = ({
 
     try {
       await onCapture();
-
-      // Visual feedback animation
       setTimeout(() => setCaptureFeedback(false), 500);
     } finally {
       setTimeout(() => setIsProcessing(false), 1000);
@@ -44,22 +51,114 @@ export const GameScreen: React.FC<GameScreenProps> = ({
     setCameraStarting(true);
     try {
       await onStartGame();
+      setShowInstructions(false);
     } finally {
       setTimeout(() => setCameraStarting(false), 1000);
     }
   };
 
   return (
-    <div className="game-screen container-fluid" id="gameScreen">
-      <div className="camera-container">
-        {/* Camera Feed with Enhanced Styling */}
-        <div style={{
+    <div
+      className="game-screen"
+      id="gameScreen"
+      style={{
+        width: '100vw',
+        height: '100vh',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+    >
+      {/* Welcome Instructions Overlay */}
+      {showInstructions && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'rgba(0, 0, 0, 0.8)',
+            zIndex: 1000,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backdropFilter: 'blur(10px)',
+          }}
+        >
+          <div
+            style={{
+              background: 'var(--bg-primary)',
+              padding: '3rem',
+              borderRadius: '20px',
+              maxWidth: '500px',
+              textAlign: 'center',
+              border: '3px solid var(--primary-sage)',
+              boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
+            }}
+          >
+            <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>🌿</div>
+            <h2 style={{
+              color: 'var(--primary-sage)',
+              fontFamily: 'Playfair Display, serif',
+              fontSize: '2rem',
+              marginBottom: '1rem',
+              fontWeight: '800'
+            }}>
+              Welcome to PanGEO
+            </h2>
+            <p style={{
+              color: 'var(--text-secondary)',
+              marginBottom: '2rem',
+              lineHeight: '1.6',
+              fontSize: '1.1rem'
+            }}>
+              Discover and identify amazing species in your environment.
+              Point your camera at plants, insects, and animals to start your collection!
+            </p>
+            <button
+              onClick={() => setShowInstructions(false)}
+              style={{
+                background: 'var(--primary-sage)',
+                color: 'white',
+                border: 'none',
+                padding: '1rem 2rem',
+                borderRadius: '12px',
+                fontSize: '1.1rem',
+                fontWeight: '700',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+              }}
+            >
+              Get Started
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Full Screen Camera Container */}
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
           position: 'relative',
-          borderRadius: '16px',
-          overflow: 'hidden',
-          boxShadow: '0 20px 60px rgba(0,0,0,0.15)',
-          transition: 'all 0.3s ease',
-        }}>
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        {/* Camera Feed Container */}
+        <div
+          className="camera-feed-container"
+          style={{
+            flex: 1,
+            position: 'relative',
+            overflow: 'hidden',
+            boxShadow: '0 25px 80px rgba(0,0,0,0.2)',
+            transition: 'all 0.4s ease',
+            background: 'var(--bg-secondary)',
+            width: '100%',
+            height: '100%',
+          }}
+        >
           <video
             ref={camera.videoRef}
             id="videoElement"
@@ -70,10 +169,11 @@ export const GameScreen: React.FC<GameScreenProps> = ({
               width: '100%',
               height: '100%',
               objectFit: 'cover',
-              borderRadius: '16px',
-              transition: 'all 0.3s ease',
-              filter: captureFeedback ? 'brightness(1.2) saturate(1.3)' : 'none',
-              transform: captureFeedback ? 'scale(1.02)' : 'scale(1)',
+              transition: 'all 0.4s ease',
+              filter: captureFeedback
+                ? 'brightness(1.3) saturate(1.4) contrast(1.1)'
+                : 'none',
+              transform: captureFeedback ? 'scale(1.03)' : 'scale(1)',
             }}
           />
           <canvas
@@ -82,263 +182,339 @@ export const GameScreen: React.FC<GameScreenProps> = ({
             style={{ display: 'none' }}
           />
 
-          {/* Enhanced Detection Overlay */}
+          {/* Detection Results Overlay */}
           {currentDetection && (
             <div
+              className="detection-overlay"
               style={{
                 position: 'absolute',
-                top: '20px',
-                left: '20px',
-                right: '20px',
-                background: 'rgba(6, 78, 59, 0.95)',
+                top: '30px',
+                left: '30px',
+                right: '30px',
+                background: 'rgba(6, 78, 59, 0.96)',
                 color: 'white',
-                padding: '1.5rem',
-                borderRadius: '16px',
-                backdropFilter: 'blur(20px)',
-                border: '2px solid rgba(255,255,255,0.2)',
-                boxShadow: '0 8px 32px rgba(6, 78, 59, 0.3)',
-                animation: 'animate-slide-in-down 0.4s ease-out',
-                zIndex: 10,
+                padding: '2rem',
+                borderRadius: '18px',
+                backdropFilter: 'blur(25px)',
+                border: '3px solid rgba(255,255,255,0.25)',
+                boxShadow: '0 12px 40px rgba(6, 78, 59, 0.4)',
+                animation: 'animate-slide-in-down 0.5s ease-out',
+                zIndex: 20,
               }}
             >
               <div style={{ textAlign: 'center' }}>
                 <div style={{
                   display: 'flex',
                   justifyContent: 'center',
-                  marginBottom: '0.5rem',
-                  animation: 'animate-bounce-in 0.6s ease-out'
+                  marginBottom: '1rem',
+                  animation: 'animate-bounce-in 0.7s ease-out'
                 }}>
-                  <Target size={28} />
+                  <Target size={32} color="#FFD700" />
                 </div>
+
                 <h3 style={{
-                  fontSize: '1.4rem',
-                  fontWeight: '800',
-                  marginBottom: '0.5rem',
-                  letterSpacing: '-0.01em'
+                  fontSize: '1.6rem',
+                  fontWeight: '900',
+                  marginBottom: '0.75rem',
+                  letterSpacing: '-0.02em',
+                  fontFamily: 'Playfair Display, serif',
+                  textTransform: 'uppercase',
                 }}>
                   {currentDetection.species}
                 </h3>
+
                 <div style={{
-                  fontSize: '1rem',
-                  opacity: 0.9,
-                  marginBottom: '0.5rem'
-                }}>
-                  Confidence: <strong>{currentDetection.confidence.toFixed(1)}%</strong>
-                </div>
-                <div style={{
-                  fontSize: '0.9rem',
-                  opacity: 0.8,
                   display: 'flex',
-                  alignItems: 'center',
                   justifyContent: 'center',
-                  gap: '0.5rem'
+                  gap: '2rem',
+                  marginBottom: '1rem',
+                  flexWrap: 'wrap',
                 }}>
-                  <Trophy size={16} />
-                  <span>+{currentDetection.points} points</span>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    background: 'rgba(255,255,255,0.15)',
+                    padding: '0.5rem 1rem',
+                    borderRadius: '15px',
+                  }}>
+                    <Zap size={16} />
+                    <span style={{ fontWeight: '700', fontSize: '1rem' }}>
+                      {currentDetection.confidence.toFixed(1)}% Confidence
+                    </span>
+                  </div>
+
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    background: 'rgba(255,215,0,0.2)',
+                    padding: '0.5rem 1rem',
+                    borderRadius: '15px',
+                  }}>
+                    <Trophy size={16} color="#FFD700" />
+                    <span style={{ fontWeight: '700', fontSize: '1rem' }}>
+                      +{currentDetection.points} Points
+                    </span>
+                  </div>
                 </div>
 
-                {/* Rarity Indicator */}
+                {/* Rarity Badge */}
                 <div style={{
-                  marginTop: '1rem',
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '0.5rem',
-                  background: 'rgba(255,255,255,0.1)',
-                  padding: '0.5rem 1rem',
-                  borderRadius: '20px',
-                  fontSize: '0.8rem',
-                  fontWeight: '600',
+                  gap: '0.75rem',
+                  background: 'linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1))',
+                  padding: '0.75rem 1.5rem',
+                  borderRadius: '25px',
+                  fontSize: '0.95rem',
+                  fontWeight: '800',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
+                  border: '2px solid rgba(255,255,255,0.3)',
                 }}>
-                  <span style={{ textTransform: 'capitalize' }}>
-                    {currentDetection.rarity}
-                  </span>
+                  <span>⭐ {currentDetection.rarity}</span>
                 </div>
               </div>
             </div>
           )}
 
-          {/* Camera Status Indicator */}
-          {camera.isReady && (
-            <div style={{
-              position: 'absolute',
-              top: '20px',
-              right: '20px',
-              width: '12px',
-              height: '12px',
-              borderRadius: '50%',
-              background: '#10B981',
-              boxShadow: '0 0 10px rgba(16, 185, 129, 0.5)',
-              animation: 'animate-pulse 2s infinite',
-              zIndex: 10,
-            }} />
-          )}
-
-          {/* Enhanced Camera Controls */}
+          {/* Camera Status Indicators */}
           <div style={{
             position: 'absolute',
-            bottom: '20px',
-            left: '20px',
-            right: '20px',
+            top: '30px',
+            right: '30px',
             display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
             gap: '1rem',
+            zIndex: 15,
           }}>
-            {/* Flip Camera Button */}
+            {camera.isReady && (
+              <div style={{
+                width: '16px',
+                height: '16px',
+                borderRadius: '50%',
+                background: '#10B981',
+                boxShadow: '0 0 15px rgba(16, 185, 129, 0.7)',
+                animation: 'animate-pulse 2s infinite',
+                border: '2px solid white',
+              }} />
+            )}
+
+            {detection.isDetecting && (
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                background: 'rgba(59, 130, 246, 0.9)',
+                color: 'white',
+                padding: '0.5rem 1rem',
+                borderRadius: '20px',
+                fontSize: '0.85rem',
+                fontWeight: '700',
+                border: '2px solid rgba(255,255,255,0.3)',
+              }}>
+                <RefreshCw size={14} className="animate-spin" />
+                <span>Scanning</span>
+              </div>
+            )}
+          </div>
+
+          {/* Camera Controls */}
+          <div
+            className="camera-controls"
+            style={{
+              position: 'absolute',
+              bottom: '30px',
+              left: '30px',
+              right: '30px',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              gap: '1.5rem',
+            }}
+          >
+            {/* Flip Camera */}
             <button
               onClick={camera.flipCamera}
               disabled={!camera.isReady}
+              className="control-btn flip-btn"
               style={{
-                width: '50px',
-                height: '50px',
+                width: '60px',
+                height: '60px',
                 background: 'rgba(255,255,255,0.95)',
                 color: 'var(--text-primary)',
-                border: 'none',
+                border: '3px solid rgba(255,255,255,0.8)',
                 borderRadius: '50%',
                 cursor: camera.isReady ? 'pointer' : 'not-allowed',
-                boxShadow: '0 4px 16px rgba(0,0,0,0.2)',
+                boxShadow: '0 6px 20px rgba(0,0,0,0.3)',
                 transition: 'all 0.3s ease',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: '1.2rem',
-                opacity: camera.isReady ? 1 : 0.5,
+                fontSize: '1.4rem',
+                opacity: camera.isReady ? 1 : 0.4,
               }}
               aria-label="Flip camera"
             >
-              <RotateCcw size={20} />
+              <RotateCcw size={24} />
             </button>
 
-            {/* Enhanced Capture Button */}
+            {/* Capture Button */}
             <button
               onClick={handleCapture}
               disabled={!camera.isReady || !currentDetection || isProcessing}
+              className="capture-btn"
               style={{
                 flex: 1,
-                maxWidth: '200px',
+                maxWidth: '220px',
                 background: (!camera.isReady || !currentDetection || isProcessing)
-                  ? 'rgba(107, 114, 128, 0.8)'
-                  : 'var(--primary-emerald)',
+                  ? 'rgba(107, 114, 128, 0.9)'
+                  : 'linear-gradient(135deg, var(--primary-sage), var(--deep-sage))',
                 color: 'white',
-                border: 'none',
-                padding: '1.2rem 2rem',
-                borderRadius: '30px',
+                border: '4px solid rgba(255,255,255,0.3)',
+                padding: '1.5rem 2.5rem',
+                borderRadius: '35px',
                 cursor: (camera.isReady && currentDetection && !isProcessing) ? 'pointer' : 'not-allowed',
-                fontSize: '1.1rem',
-                fontWeight: '700',
+                fontSize: '1.2rem',
+                fontWeight: '800',
                 boxShadow: (camera.isReady && currentDetection && !isProcessing)
-                  ? '0 8px 25px rgba(6, 78, 59, 0.4)'
-                  : '0 4px 12px rgba(0,0,0,0.1)',
+                  ? '0 10px 30px rgba(122, 155, 122, 0.5)'
+                  : '0 6px 18px rgba(0,0,0,0.2)',
                 transition: 'all 0.3s ease',
-                transform: isProcessing ? 'scale(0.95)' : 'scale(1)',
+                transform: isProcessing ? 'scale(0.92)' : 'scale(1)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '0.5rem',
+                gap: '0.75rem',
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em',
               }}
               aria-label="Capture discovery"
             >
               {isProcessing ? (
                 <>
-                  <Loading size="small" type="spinner" />
+                  <Loading size="medium" type="spinner" />
                   <span>Processing...</span>
                 </>
               ) : (
                 <>
-                  <Camera size={20} />
+                  <Camera size={24} />
                   <span>Capture</span>
                 </>
               )}
             </button>
 
-            {/* View Collection Button */}
+            {/* Collection Button */}
             <button
               onClick={onViewCollection}
+              className="collection-btn"
               style={{
                 background: 'rgba(255,255,255,0.95)',
                 color: 'var(--text-primary)',
-                border: 'none',
-                padding: '0.8rem 1.5rem',
-                borderRadius: '25px',
+                border: '3px solid rgba(255,255,255,0.8)',
+                padding: '1rem 2rem',
+                borderRadius: '28px',
                 cursor: 'pointer',
-                fontSize: '0.9rem',
-                fontWeight: '600',
-                boxShadow: '0 4px 16px rgba(0,0,0,0.2)',
+                fontSize: '1rem',
+                fontWeight: '700',
+                boxShadow: '0 6px 20px rgba(0,0,0,0.3)',
                 transition: 'all 0.3s ease',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.5rem',
+                textTransform: 'uppercase',
+                letterSpacing: '0.02em',
               }}
               aria-label="View collection"
             >
-              <BookOpen size={16} />
+              <BookOpen size={18} />
               <span>Collection</span>
             </button>
           </div>
         </div>
 
-        {/* Enhanced Status Messages */}
+        {/* Status Messages */}
         {!camera.isReady && (
-          <div style={{
-            marginTop: '2rem',
-            textAlign: 'center',
-            padding: '2.5rem',
-            background: 'var(--bg-secondary)',
-            borderRadius: '16px',
-            border: '2px solid var(--border-primary)',
-            animation: 'animate-fade-in 0.5s ease-out',
-          }}>
+          <div
+            className="camera-setup"
+            style={{
+              marginTop: '1rem',
+              textAlign: 'center',
+              padding: '1rem',
+              background: 'var(--bg-secondary)',
+              borderRadius: '20px',
+              border: '3px solid var(--border-primary)',
+              animation: 'animate-fade-in 0.6s ease-out',
+              boxShadow: '0 10px 40px rgba(0,0,0,0.1)',
+            }}
+          >
             <div style={{
               display: 'flex',
               justifyContent: 'center',
-              marginBottom: '1rem',
-              animation: 'animate-float 3s ease-in-out infinite'
+              marginBottom: '1.5rem',
+              animation: 'animate-float 4s ease-in-out infinite'
             }}>
-              <Camera size={48} />
+              <Camera size={64} color="var(--primary-sage)" />
             </div>
+
             <h3 style={{
-              marginBottom: '1rem',
+              marginBottom: '1.5rem',
               color: 'var(--text-primary)',
-              fontSize: '1.3rem',
-              fontWeight: '700'
+              fontSize: '1.8rem',
+              fontWeight: '800',
+              fontFamily: 'Playfair Display, serif',
+              textTransform: 'uppercase',
+              letterSpacing: '-0.01em',
             }}>
               Camera Access Required
             </h3>
+
             <p style={{
               color: 'var(--text-secondary)',
-              marginBottom: '2rem',
-              fontSize: '1rem',
-              lineHeight: '1.5'
+              marginBottom: '3rem',
+              fontSize: '1.1rem',
+              lineHeight: '1.7',
+              maxWidth: '600px',
+              margin: '0 auto 3rem',
             }}>
-              Allow camera access to start discovering amazing species in your area.
+              Grant camera permissions to begin your nature discovery journey.
+              We'll help you identify fascinating species and build your personal collection.
             </p>
+
             <button
               onClick={handleStartCamera}
               disabled={cameraStarting}
+              className="enable-camera-btn"
               style={{
-                background: cameraStarting ? 'var(--border-secondary)' : 'var(--primary-emerald)',
+                background: cameraStarting
+                  ? 'var(--border-secondary)'
+                  : 'linear-gradient(135deg, var(--primary-sage), var(--deep-sage))',
                 color: 'white',
                 border: 'none',
-                padding: '1.2rem 2.5rem',
-                borderRadius: '12px',
+                padding: '1.5rem 3.5rem',
+                borderRadius: '15px',
                 cursor: cameraStarting ? 'not-allowed' : 'pointer',
-                fontSize: '1.1rem',
-                fontWeight: '700',
-                transition: 'all 0.3s ease',
+                fontSize: '1.3rem',
+                fontWeight: '800',
+                transition: 'all 0.4s ease',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '0.5rem',
-                boxShadow: cameraStarting ? 'none' : '0 6px 20px rgba(6, 78, 59, 0.3)',
+                gap: '1rem',
+                boxShadow: cameraStarting
+                  ? 'none'
+                  : '0 8px 25px rgba(122, 155, 122, 0.4)',
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em',
               }}
             >
               {cameraStarting ? (
                 <>
-                  <Loading size="small" type="spinner" />
-                  <span>Starting Camera...</span>
+                  <Loading size="medium" type="spinner" />
+                  <span>Initializing Camera...</span>
                 </>
               ) : (
                 <>
-                  <Video size={20} />
+                  <Video size={24} />
                   <span>Enable Camera</span>
                 </>
               )}
@@ -346,76 +522,155 @@ export const GameScreen: React.FC<GameScreenProps> = ({
           </div>
         )}
 
-        {/* Detection Ready State */}
+        {/* Ready to Detect State */}
         {camera.isReady && !detection.isDetecting && !currentDetection && (
-          <div style={{
-            marginTop: '2rem',
-            textAlign: 'center',
-            padding: '2rem',
-            background: 'var(--bg-secondary)',
-            borderRadius: '16px',
-            border: '2px solid var(--border-primary)',
-            animation: 'animate-scale-in 0.4s ease-out',
-          }}>
+          <div
+            className="ready-state"
+            style={{
+              marginTop: '1rem',
+              textAlign: 'center',
+              padding: '1rem',
+              background: 'var(--bg-secondary)',
+              borderRadius: '20px',
+              border: '3px solid var(--border-primary)',
+              animation: 'animate-scale-in 0.5s ease-out',
+              boxShadow: '0 10px 40px rgba(0,0,0,0.1)',
+            }}
+          >
             <div style={{
               display: 'flex',
               justifyContent: 'center',
-              marginBottom: '1rem',
-              animation: 'animate-pulse 2s infinite'
+              marginBottom: '1.5rem',
+              animation: 'animate-pulse 3s infinite'
             }}>
-              <Search size={40} />
+              <Search size={56} color="var(--primary-sage)" />
             </div>
+
             <h3 style={{
-              marginBottom: '1rem',
+              marginBottom: '1.5rem',
               color: 'var(--text-primary)',
-              fontSize: '1.2rem',
-              fontWeight: '700'
+              fontSize: '1.6rem',
+              fontWeight: '800',
+              fontFamily: 'Playfair Display, serif',
+              textTransform: 'uppercase',
             }}>
               Ready to Detect
             </h3>
+
             <p style={{
               color: 'var(--text-secondary)',
-              fontSize: '0.95rem',
-              lineHeight: '1.5'
+              fontSize: '1.1rem',
+              lineHeight: '1.7',
+              maxWidth: '500px',
+              margin: '0 auto',
             }}>
-              Point your camera at plants, insects, or animals to identify species and earn points!
+              Point your camera at plants, insects, or animals around you.
+              Our AI will identify species and help you build your discovery collection!
             </p>
+
+            <div style={{
+              marginTop: '2rem',
+              display: 'flex',
+              justifyContent: 'center',
+              gap: '1rem',
+              flexWrap: 'wrap',
+            }}>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                background: 'rgba(122, 155, 122, 0.1)',
+                padding: '0.75rem 1.5rem',
+                borderRadius: '20px',
+                fontSize: '0.9rem',
+                color: 'var(--primary-sage)',
+                fontWeight: '600',
+              }}>
+                <Eye size={16} />
+                <span>Plants & Flowers</span>
+              </div>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                background: 'rgba(122, 155, 122, 0.1)',
+                padding: '0.75rem 1.5rem',
+                borderRadius: '20px',
+                fontSize: '0.9rem',
+                color: 'var(--primary-sage)',
+                fontWeight: '600',
+              }}>
+                <Target size={16} />
+                <span>Insects & Bugs</span>
+              </div>
+            </div>
           </div>
         )}
 
-        {/* Detection Active State */}
+        {/* Scanning State */}
         {camera.isReady && detection.isDetecting && !currentDetection && (
-          <div style={{
-            marginTop: '2rem',
-            textAlign: 'center',
-            padding: '2rem',
-            background: 'var(--bg-secondary)',
-            borderRadius: '16px',
-            border: '2px solid var(--info)',
-            animation: 'animate-fade-in 0.3s ease-out',
-          }}>
+          <div
+            className="scanning-state"
+            style={{
+              marginTop: '1rem',
+              textAlign: 'center',
+              padding: '1rem',
+              background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 197, 253, 0.1))',
+              borderRadius: '20px',
+              border: '3px solid var(--info)',
+              animation: 'animate-fade-in 0.4s ease-out',
+              boxShadow: '0 10px 40px rgba(59, 130, 246, 0.2)',
+            }}
+          >
             <div style={{
               display: 'flex',
               justifyContent: 'center',
-              marginBottom: '1rem',
-              animation: 'animate-pulse 1.5s infinite'
+              marginBottom: '1.5rem',
+              animation: 'animate-pulse 1.8s infinite'
             }}>
-              <RefreshCw size={32} />
+              <RefreshCw size={48} color="var(--info)" className="animate-spin" />
             </div>
+
             <h3 style={{
-              marginBottom: '0.5rem',
+              marginBottom: '1rem',
               color: 'var(--text-primary)',
-              fontSize: '1.1rem',
-              fontWeight: '600'
+              fontSize: '1.5rem',
+              fontWeight: '800',
+              fontFamily: 'Playfair Display, serif',
+              textTransform: 'uppercase',
             }}>
-              Scanning...
+              Analyzing...
             </h3>
+
             <p style={{
               color: 'var(--text-secondary)',
-              fontSize: '0.9rem'
+              fontSize: '1rem',
+              lineHeight: '1.6',
             }}>
-              Analyzing your surroundings for species
+              Processing your camera feed for species identification
             </p>
+
+            <div style={{
+              marginTop: '2rem',
+              width: '100%',
+              maxWidth: '300px',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+            }}>
+              <div style={{
+                height: '6px',
+                background: 'var(--silver)',
+                borderRadius: '3px',
+                overflow: 'hidden',
+              }}>
+                <div style={{
+                  height: '100%',
+                  background: 'linear-gradient(90deg, var(--info), var(--primary-sage))',
+                  borderRadius: '3px',
+                  animation: 'shimmer 2s ease-in-out infinite',
+                }} />
+              </div>
+            </div>
           </div>
         )}
       </div>

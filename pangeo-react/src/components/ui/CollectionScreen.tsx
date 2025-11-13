@@ -9,24 +9,53 @@ export const CollectionScreen: React.FC<CollectionScreenProps> = ({ onBackToGame
   const { gameData } = useGameStore();
 
   return (
-    <div className="collection-screen container-fluid scroll-container" id="collectionScreen">
-      <div className="collection-header sticky-header">
-        <button
-          className="back-btn"
-          id="backToGameBtn"
-          onClick={onBackToGame}
-          aria-label="Back to game"
-        >
-          ← Back to Game
-        </button>
-        <h2>Your Collection</h2>
-        <div className="collection-stats">
-          <span>{gameData.discoveries.length} discoveries</span>
-          <span>{gameData.discoveredSpecies.length} species</span>
+    <div
+      className="collection-screen"
+      id="collectionScreen"
+      style={{
+        width: '100vw',
+        height: '100vh',
+        position: 'relative',
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
+      {/* Full Screen Collection Container */}
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
+          position: 'relative',
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        <div className="collection-header">
+          <button
+            className="back-btn"
+            id="backToGameBtn"
+            onClick={onBackToGame}
+            aria-label="Back to game"
+          >
+            ← Back to Game
+          </button>
+          <h2>Your Collection</h2>
+          <div className="collection-stats">
+            <span>{gameData.discoveries.length} discoveries</span>
+            <span>{gameData.discoveredSpecies.length} species</span>
+          </div>
         </div>
-      </div>
 
-      <div className="cards-grid grid-auto-fit" id="cardsGrid">
+        <div
+          className="cards-grid grid-auto-fit scroll-container"
+          id="cardsGrid"
+          style={{
+            flex: 1,
+            width: '100%',
+            height: '100%',
+          }}
+        >
         {gameData.discoveries.length === 0 ? (
           <div className="empty-state" style={{
             gridColumn: '1 / -1',
@@ -80,6 +109,7 @@ export const CollectionScreen: React.FC<CollectionScreenProps> = ({ onBackToGame
             </div>
           ))
         )}
+        </div>
       </div>
     </div>
   );
