@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback } from 'react';
+import { useRef, useState, useCallback, useEffect } from 'react';
 import type { UseCameraReturn } from '../types';
 
 export const useCamera = (): UseCameraReturn => {
@@ -7,10 +7,36 @@ export const useCamera = (): UseCameraReturn => {
   const [isActive, setIsActive] = useState(false);
   const [facingMode, setFacingMode] = useState<'user' | 'environment'>('environment');
   const [stream, setStream] = useState<MediaStream | null>(null);
+  const [isReady, setIsReady] = useState(false);
 
-  const isReady = useCallback(() => {
-    return isActive && stream && videoRef.current && videoRef.current.readyState === 4;
+  const updateIsReady = useCallback(() => {
+    const ready = isActive && stream && videoRef.current && videoRef.current.readyState === 4;
+    setIsReady(ready);
   }, [isActive, stream]);
+
+  useEffect(() => {
+    updateIsReady();
+  }, [updateIsReady]);
+
+  // Check ready state when video loads
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video) {
+      const handleLoadedData = () => updateIsReady();
+      const handleLoadedMetadata = () => updateIsReady();
+      const handleCanPlay = () => updateIsReady();
+
+      video.addEventListener('loadeddata', handleLoadedData);
+      video.addEventListener('loadedmetadata', handleLoadedMetadata);
+      video.addEventListener('canplay', handleCanPlay);
+
+      return () => {
+        video.removeEventListener('loadeddata', handleLoadedData);
+        video.removeEventListener('loadedmetadata', handleLoadedMetadata);
+        video.removeEventListener('canplay', handleCanPlay);
+      };
+    }
+  }, [updateIsReady]);
 
   const startCamera = useCallback(async (): Promise<boolean> => {
     try {
@@ -65,7 +91,7 @@ export const useCamera = (): UseCameraReturn => {
   }, [facingMode]);
 
   const capturePhoto = useCallback((): string | null => {
-    if (!isReady() || !videoRef.current || !canvasRef.current) {
+    if (!isReady || !videoRef.current || !canvasRef.current) {
       console.error('Camera is not ready');
       return null;
     }
@@ -150,7 +176,7 @@ export const useCamera = (): UseCameraReturn => {
   return {
     videoRef: videoRef as React.RefObject<HTMLVideoElement>,
     canvasRef: canvasRef as React.RefObject<HTMLCanvasElement>,
-    isReady: isReady(),
+    isReady,
     isActive,
     facingMode,
     startCamera,

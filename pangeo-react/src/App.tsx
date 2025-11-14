@@ -89,6 +89,11 @@ function App() {
     }
   };
 
+  const handleStopGame = () => {
+    detection.stopDetection();
+    setGameActive(false);
+  };
+
   const handleCaptureDiscovery = async () => {
     if (!camera.isReady) {
       console.error('Camera is not ready');
@@ -156,6 +161,7 @@ function App() {
               camera={camera}
               detection={detection}
               onStartGame={handleStartGame}
+              onStopGame={handleStopGame}
               onCapture={handleCaptureDiscovery}
               onViewCollection={() => setCurrentScreen('collection')}
             />
