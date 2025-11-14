@@ -27,6 +27,7 @@ export const GameScreen: React.FC<GameScreenProps> = ({
   const currentDetection = detection.getCurrentDetection();
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   // Instructions disabled - always show enable overlay
   // useEffect(() => {
   //   if (!camera.isReady && !localStorage.getItem('pangeo-instructions-shown')) {
@@ -35,6 +36,8 @@ export const GameScreen: React.FC<GameScreenProps> = ({
   //   }
   // }, [camera.isReady]);
 
+=======
+>>>>>>> parent of 3458f6f (screenfix)
 =======
 >>>>>>> parent of 3458f6f (screenfix)
   const handleCapture = async () => {
@@ -79,6 +82,7 @@ export const GameScreen: React.FC<GameScreenProps> = ({
   };
 
   return (
+<<<<<<< HEAD
 <<<<<<< HEAD
     <div
       style={{
@@ -376,6 +380,8 @@ export const GameScreen: React.FC<GameScreenProps> = ({
             zIndex: 200,
           }}>
 =======
+=======
+>>>>>>> parent of 3458f6f (screenfix)
     <div className="game-screen container-fluid" id="gameScreen">
       <div className="camera-container">
         {/* Camera Feed with Enhanced Styling */}
@@ -511,11 +517,15 @@ export const GameScreen: React.FC<GameScreenProps> = ({
             gap: '1rem',
           }}>
             {/* Flip Camera Button */}
+<<<<<<< HEAD
+>>>>>>> parent of 3458f6f (screenfix)
+=======
 >>>>>>> parent of 3458f6f (screenfix)
             <button
               onClick={camera.flipCamera}
               disabled={!camera.isReady}
               style={{
+<<<<<<< HEAD
 <<<<<<< HEAD
                 width: '60px',
                 height: '60px',
@@ -527,6 +537,8 @@ export const GameScreen: React.FC<GameScreenProps> = ({
                 alignItems: 'center',
                 justifyContent: 'center',
 =======
+=======
+>>>>>>> parent of 3458f6f (screenfix)
                 width: '50px',
                 height: '50px',
                 background: 'rgba(255,255,255,0.95)',
@@ -540,6 +552,9 @@ export const GameScreen: React.FC<GameScreenProps> = ({
                 alignItems: 'center',
                 justifyContent: 'center',
                 fontSize: '1.2rem',
+<<<<<<< HEAD
+>>>>>>> parent of 3458f6f (screenfix)
+=======
 >>>>>>> parent of 3458f6f (screenfix)
                 opacity: camera.isReady ? 1 : 0.5,
               }}
@@ -701,6 +716,7 @@ export const GameScreen: React.FC<GameScreenProps> = ({
       )}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
       {/* Status Indicator */}
       {camera.isReady && detection.isDetecting && (
         <div style={{
@@ -721,6 +737,8 @@ export const GameScreen: React.FC<GameScreenProps> = ({
         </div>
       )}
 =======
+=======
+>>>>>>> parent of 3458f6f (screenfix)
         {/* Detection Ready State */}
         {camera.isReady && !detection.isDetecting && !currentDetection && (
           <div style={{
