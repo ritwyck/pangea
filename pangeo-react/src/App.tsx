@@ -155,7 +155,7 @@ function App() {
           onDataClick={() => setIsDataOpen(true)}
         />
 
-        <main id="main-content" className="main-content">
+        <main id="main-content" className="main-content" style={{ width: '100vw', marginLeft: 'calc(50% - 50vw)', marginRight: 'calc(50% - 50vw)' }}>
           {currentScreen === 'game' ? (
             <GameScreen
               camera={camera}

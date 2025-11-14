@@ -7,21 +7,10 @@
    Complete Transformation - 1800+ Lines
    ======================================== */
 
-*,
-*::before,
-*::after {
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
-
-html,
-body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    min-height: 100vh;
-    overflow-x: hidden;
 }
 
 /* ========================================
@@ -345,17 +334,13 @@ body {
     background: var(--bg-primary);
     position: relative;
     transition: background-color 0.3s ease;
-    display: flex;
-    flex-direction: column;
 }
 
 /* Main Content Area */
 .main-content {
-    flex: 1;
-    min-height: 100vh; /* Full viewport since nav is fixed */
+    min-height: calc(100vh - 140px); /* Account for nav and spacing */
+    padding: var(--space-lg) 0;
     width: 100%;
-    display: flex;
-    flex-direction: column;
 }
 
 /* ========================================
@@ -380,7 +365,8 @@ body {
 }
 
 .nav-content {
-    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -582,13 +568,67 @@ body {
     letter-spacing: 0.05em;
 }
 
-/* Weather Widget - REMOVED */
+/* Weather Widget - Luxury Card */
+.weather-widget {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    background: rgba(254, 254, 254, 0.98);
+    color: var(--);
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    backdrop-filter: blur(20px);
+    z-index: 50;
+    border: 2px solid var(--light-gray);
+    box-shadow: var(--medium-shadow);
+}
+
+.weather-icon {
+    font-size: 1.8rem;
+}
+
+.weather-temp {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--primary-emerald);
+    letter-spacing: 0.02em;
+}
+
+.weather-condition {
+    font-size: 1rem;
+    opacity: 0.9;
+    font-weight: 600;
+}
+
+.weather-bonus {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    background: var(--luxury-gold);
+    color: var(--off-white);
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 800;
+    animation: luxuryPulse 2.5s infinite;
+    box-shadow: var(--soft-shadow);
+    border: 1px solid var(--warning);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+@keyframes luxuryPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.08); opacity: 0.9; }
+}
 
 /* Capture Button - Clean */
 .capture-btn {
     position: absolute;
     bottom: 50px;
-    right: 20px;
+    left: 50%;
+    transform: translateX(-50%);
     background: #064E3B;
     color: white;
     border: 3px solid #064E3B;
@@ -606,7 +646,7 @@ body {
 
 .capture-btn:hover:not(:disabled) {
     background: #047857;
-    transform: translateY(-2px);
+    transform: translateX(-50%) translateY(-2px);
     box-shadow: 0 6px 20px rgba(6, 78, 59, 0.4);
     border-color: #047857;
 }
@@ -615,7 +655,7 @@ body {
     background: var(--silver);
     cursor: not-allowed;
     color: var(--);
-    transform: translateY(0);
+    transform: translateX(-50%) translateY(0);
     border-color: var(--medium-gray);
 }
 
@@ -666,32 +706,19 @@ body {
 }
 
 /* ========================================
-   SCREEN COMPONENTS - Full Height Layout
-   ======================================== */
-
-.collection-screen {
-    display: flex;
-    flex-direction: column;
-}
-
-/* ========================================
    COLLECTION SCREEN - Luxury Grid
    ======================================== */
 
 .collection-header {
     display: flex;
     align-items: center;
-    padding: 2rem;
+    padding: 4rem;
     gap: 2rem;
+    border-bottom: 3px solid var(--primary-sage);
     background: var(--bg-primary);
     flex-wrap: wrap;
     width: 100%;
-    flex-shrink: 0; /* Prevent header from shrinking */
-}
-
-.collection-screen .cards-grid {
-    flex: 1; /* Fill remaining space */
-    min-height: 0; /* Allow flex item to shrink below content size */
+    box-shadow: var(--soft-shadow);
 }
 
 .collection-header h2 {
@@ -745,9 +772,10 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
     gap: 3rem;
-    padding: 2rem;
+    padding: 5rem 4rem;
     background: var(--luxury-gradient);
-    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
 }
 
 .species-card {
@@ -1373,17 +1401,6 @@ body {
     }
 }
 
-/* Hide Browser Extension Artifacts */
-div.Uc9Q6_ddj_FwH5wIH8wN,
-div.h9VlE_F12ICU8D8xnW_C {
-    display: none !important;
-}
-
-/* Hide HTTPS Warning */
-div[style*="background: red"][style*="position: fixed"] {
-    display: none !important;
-}
-
 /* Final Luxury Touches */
 ::selection {
     background: rgba(6, 78, 59, 0.2);
@@ -1393,18 +1410,6 @@ div[style*="background: red"][style*="position: fixed"] {
 :focus {
     outline: 3px solid rgba(6, 78, 59, 0.3);
     outline-offset: 2px;
-}
-
-/* ========================================
-   CONTAINER SYSTEM
-   ======================================== */
-
-.container-fluid {
-    width: 100%;
-    padding-left: var(--grid-margin, 1rem);
-    padding-right: var(--grid-margin, 1rem);
-    margin-left: auto;
-    margin-right: auto;
 }
 
 /* ========================================
@@ -1653,7 +1658,8 @@ div[style*="background: red"][style*="position: fixed"] {
     }
 
     .camera-container {
-        width: 100%;
+        width: calc(100vw - 1.5rem);
+        max-width: none;
         margin: 0.5rem;
         position: relative;
     }
